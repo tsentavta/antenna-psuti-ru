@@ -5,6 +5,10 @@ backend:
   repo: tsentavta/antenna-psuti-ru
   branch: master
   site_domain: tsentavta.github.io
+  # OAuth-клиент: Sveltia CMS Authenticator на Cloudflare Workers.
+  # Без него вход через GitHub не работает — статический сайт
+  # не может хранить секрет приложения.
+  base_url: https://sveltia-cms-auth.etentavtaru.workers.dev
 
 # Правки сохраняются сразу в основную ветку: редактор один,
 # согласование черновиков между людьми не нужно.
