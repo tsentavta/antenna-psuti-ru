@@ -1,0 +1,47 @@
+{{/* Классическая модель скин-эффекта: реконструкция апплета SkinEffect
+     (codea.jar, 2001). Панель 348 px, частота зашита на 1 кГц, ширина
+     пластины меняется перетаскиванием её правого края — как в оригинале. */}}
+<div class="lab__stage">
+  <div class="lab__panel">
+    <p class="lab__panel-title">Исследование скин-эффекта</p>
+
+    <canvas id="seClassic" width="328" height="330"
+            aria-label="Распределение напряжённости поля по толщине пластины. Ширина пластины меняется перетаскиванием правого края, координата зонда — ползунком."></canvas>
+
+    <div class="lab__row">
+      <label for="seMetal">Металл</label>
+      <select id="seMetal">
+        <option value="0">Медь</option>
+        <option value="1">Латунь</option>
+        <option value="2">Олово</option>
+        <option value="3">Сталь</option>
+      </select>
+    </div>
+
+    <div class="lab__row">
+      <label for="sePlate">Пластина</label>
+      <input type="range" id="sePlate" min="0.5" max="20" step="0.1" value="5">
+      <span class="lab__lcd" id="sePlateVal">5,0 мм</span>
+    </div>
+
+    <div class="lab__row">
+      <label for="seProbe">Зонд</label>
+      <input type="range" id="seProbe" min="0" max="1" step="0.001" value="0">
+      <span class="lab__lcd" id="seProbeVal">0,00 мм</span>
+    </div>
+
+    <div class="lab__row">
+      <label>Поле</label>
+      <span class="lab__lcd" id="seField" style="flex:1">100,0 мВ/м</span>
+    </div>
+
+    <div class="lab__row">
+      <label>Δ</label>
+      <span class="lab__lcd" id="seDelta" style="flex:1">— мм</span>
+    </div>
+
+    <p style="margin:8px 0 0;font-size:10px;color:#80e0e0">
+      Частота 1 кГц. Правый край пластины можно тянуть мышью.
+    </p>
+  </div>
+</div>

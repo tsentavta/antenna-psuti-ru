@@ -1,0 +1,42 @@
+{{/* Стили и скрипты работ идут через ресурсы Hugo с отпечатком в имени:
+     модели правятся часто, а без отпечатка браузер держит старую копию
+     и показывает вчерашнюю физику. */}}
+{{ define "head" }}
+{{ with resources.Get "css/labs.css" }}<link rel="stylesheet" href="{{ (. | fingerprint).RelPermalink }}">{{ end }}
+{{/* Классические работы несут вёрстку своего стенда: координаты органов
+     управления привязаны к картинке прибора, у каждой работы свои. */}}
+{{ with .Params.styles }}
+  {{ with resources.Get . }}<link rel="stylesheet" href="{{ (. | fingerprint).RelPermalink }}">{{ end }}
+{{ end }}
+{{ end }}
+
+{{ define "main" }}
+<article class="page lab{{ with .Params.line }} lab--{{ . }}{{ end }}">
+  <h1 class="page__title">{{ .Title }}</h1>
+
+  {{ with .Params.subtitle }}<p class="lab__sub">{{ . }}</p>{{ end }}
+
+  {{/* Переход между линиями. Плашка стоит до модели: студент должен увидеть,
+       что версий две, ещё до того как начнёт работать. */}}
+  {{ with .Params.altVersion }}
+    <p class="lab__switch" role="note">
+      {{ .note }}
+      <a class="lab__switch-link" href="{{ .url | relURL }}">{{ .label }} →</a>
+    </p>
+  {{ end }}
+
+  {{ with .Params.model }}
+    {{ partial (printf "labs/%s.html" .) $ }}
+  {{ end }}
+
+  <div class="page__body lab__doc">{{ .Content }}</div>
+
+  <p class="lab__back"><a href="{{ "laboratornye-raboty/" | relURL }}">← Все лабораторные работы</a></p>
+</article>
+{{ end }}
+
+{{ define "scripts" }}
+{{ with .Params.script }}
+  {{ with resources.Get . }}<script src="{{ (. | fingerprint).RelPermalink }}" defer></script>{{ end }}
+{{ end }}
+{{ end }}

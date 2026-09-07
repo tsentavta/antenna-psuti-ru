@@ -1,0 +1,49 @@
+baseURL = "/"
+locale = "ru-RU"
+defaultContentLanguage = "ru"
+title = "Кафедра радиоэлектронных систем"
+enableRobotsTXT = true
+
+# Ссылки в восстановленном контенте записаны от корня (/uploads/…, /labs/…).
+# При публикации в подпапку GitHub Pages им нужно приписать базовый адрес,
+# иначе они дают 404. В корне домена настройка ничего не меняет.
+canonifyURLs = true
+
+# Восстановленные страницы хранят разметку старой CMS как есть,
+# поэтому HTML внутри Markdown должен рендериться, а не экранироваться.
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3
+
+[params]
+  department     = "Кафедра радиоэлектронных систем"
+  departmentShort = "Кафедра РЭС"
+  university     = "Поволжский государственный университет телекоммуникаций и информатики"
+  universityShort = "ПГУТИ"
+  address        = "443010, г. Самара, ул. Льва Толстого, 23, корпус №1, 3 этаж"
+  phone          = "+7 (846) 332-58-53"
+  phoneLink      = "+78463325853"
+  universityURL  = "https://www.psuti.ru/"
+
+[taxonomies]
+  tag = "tags"
+
+[menu]
+  [[menu.footer]]
+    name = "Сайт ПГУТИ"
+    url = "https://www.psuti.ru/"
+    weight = 10
+  [[menu.footer]]
+    name = "Телефонный справочник"
+    url = "http://phone.psuti.ru/"
+    weight = 20
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+
+[services.rss]
+  limit = 20

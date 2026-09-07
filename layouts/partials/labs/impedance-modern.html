@@ -1,0 +1,47 @@
+{{/* Современная модель измерения сопротивлений: в классике волновое
+     сопротивление линии было зашито на 50 Ом, а нагрузка выбиралась из
+     набора с разыгранными параметрами. Здесь открыты и линия, и нагрузка. */}}
+<div class="lab__stage">
+  <canvas id="imPlot" aria-label="Распределение амплитуды напряжения вдоль линии"></canvas>
+</div>
+
+<div class="lab__controls">
+  <fieldset>
+    <legend>Линия</legend>
+    <label for="imZ0">Волновое сопротивление Z₀ <span class="val" id="imZ0Val">50</span> Ом</label>
+    <input type="range" id="imZ0" min="25" max="150" step="1" value="50">
+    <label for="imFreq">Частота <span class="val" id="imFreqVal">3,00</span> ГГц</label>
+    <input type="range" id="imFreq" min="0.5" max="10" step="0.01" value="3">
+  </fieldset>
+
+  <fieldset>
+    <legend>Нагрузка</legend>
+    <label for="imR">Активная часть R <span class="val" id="imRVal">50</span> Ом</label>
+    <input type="range" id="imR" min="0" max="300" step="1" value="100">
+    <label for="imX">Реактивная часть X <span class="val" id="imXVal">0</span> Ом</label>
+    <input type="range" id="imX" min="-200" max="200" step="1" value="0">
+    <label for="imProbe">Координата зонда <span class="val" id="imProbeVal">0,0</span> мм</label>
+    <input type="range" id="imProbe" min="0" max="120" step="0.1" value="0">
+  </fieldset>
+</div>
+
+<div class="lab__readouts">
+  <div class="lab__cell">
+    <div class="lab__k">Модуль коэффициента отражения</div>
+    <div class="lab__v"><span id="imGamma">—</span></div>
+  </div>
+  <div class="lab__cell">
+    <div class="lab__k">КСВ</div>
+    <div class="lab__v"><span id="imSwr">—</span></div>
+  </div>
+  <div class="lab__cell">
+    <div class="lab__k">Смещение минимума</div>
+    <div class="lab__v"><span id="imDmin">—</span> <span class="lab__u">мм</span></div>
+  </div>
+  <div class="lab__cell">
+    <div class="lab__k">Амплитуда на зонде</div>
+    <div class="lab__v"><span id="imAmp">—</span> <span class="lab__u">отн. ед.</span></div>
+  </div>
+</div>
+
+<p class="lab__hint" id="imHint"></p>

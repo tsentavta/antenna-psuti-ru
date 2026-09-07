@@ -1,0 +1,52 @@
+{{/* Классический стенд: перенесён из автономной страницы без
+     изменений, картинки прибора вынесены в /img/labs/. */}}
+<div class="standbox">
+    <div class="stand" id="stand">
+      <!-- кабель от микроамперметра к детекторной головке -->
+      <svg id="cable" width="682" height="356" aria-hidden="true">
+        <rect x="500" y="153" width="115" height="14" fill="#fff"/>
+        <path id="cablePath" fill="none" stroke="#505050" stroke-width="8" stroke-linecap="round"/>
+      </svg>
+
+      <!-- генератор СВЧ -->
+      <input class="lb" id="lbFreq" style="left:201px;top:28px;width:40px;height:13px"
+             inputmode="decimal" aria-label="Частота, ГГц" value="5.00">
+      <input type="range" id="slFreq" style="left:55px;top:51px;width:220px"
+             min="500" max="4000" step="1" value="500" aria-label="Частота генератора, ГГц">
+      <input class="lb" id="lbPower" style="left:69px;top:77px;width:40px;height:13px"
+             inputmode="decimal" aria-label="Ослабление выхода, дБ" value="-40.0">
+      <input type="range" id="slPower" style="left:54px;top:103px;width:160px"
+             min="0" max="400" step="1" value="400" aria-label="Ослабление выхода, дБ">
+      <button class="tgl" id="btGenPower" aria-pressed="false"
+              style="left:252px;top:104px;width:24px;height:9px" title="Питание генератора"></button>
+
+      <!-- микроамперметр -->
+      <div class="lb" id="lbCurrent" style="left:578px;top:54px;width:45px;height:13px">0.00</div>
+      <select id="choiceRange" style="left:483px;top:76px;width:72px;height:20px" aria-label="Предел измерения"></select>
+      <button class="tgl" id="btMicroPower" aria-pressed="false"
+              style="left:411px;top:104px;width:24px;height:9px" title="Питание микроамперметра"></button>
+
+      <!-- измерительная линия -->
+      <img class="head" id="head" alt="Детекторная головка"
+           src="{{ "img/labs/DetectHead.gif" | relURL }}" style="top:136px;left:42px">
+      <button class="arrow" id="btLeft"  style="left:62px;top:211px;width:15px;height:12px">&lt;</button>
+      <button class="arrow" id="btRight" style="left:495px;top:211px;width:15px;height:12px">&gt;</button>
+      <canvas id="graph" width="400" height="100" style="left:86px;top:221px"
+              aria-label="Распределение амплитуды вдоль линии"></canvas>
+      <input class="lb" id="lbCoord" style="left:410px;top:328px;width:40px;height:13px"
+             inputmode="decimal" aria-label="Координата зонда, мм" value="00.0">
+
+      <!-- нагрузка -->
+      <select id="choiceLoad" style="left:547px;top:263px;width:67px;height:20px" aria-label="Нагрузка"></select>
+      <div class="lb" id="lbSection" style="left:619px;top:267px;width:27px;height:13px"></div>
+      <div class="offlabel" style="left:543px;top:254px;width:131px;height:20px">Запредельный</div>
+      <div class="offlabel" style="left:543px;top:274px;width:131px;height:19px">волновод</div>
+    </div>
+  </div>
+
+<p class="lab__hint">
+    Головку можно тянуть мышью, двигать кнопками <code>&lt;</code> <code>&gt;</code>
+    или задать координату числом. Поля частоты, выхода и координаты редактируются —
+    введите значение и нажмите Enter.
+    Включите генератор и микроамперметр тумблерами на панелях.
+    При выборе нагрузки «Тракт» его длина и проводимость стенок задаются случайно.</p>

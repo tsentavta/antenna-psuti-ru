@@ -1,0 +1,26 @@
+{{ define "main" }}
+<article class="page">
+  <h1 class="page__title">{{ .Title }}</h1>
+  {{ with .Content }}<div class="page__body">{{ . }}</div>{{ end }}
+
+  {{ $pages := .Pages.ByDate.Reverse }}
+  {{ if $pages }}
+    <ul class="newsfeed">
+      {{ range $pages }}
+        <li class="newscard">
+          <time class="newscard__date" datetime="{{ .Date.Format "2006-01-02" }}">
+            {{ .Date.Format "02.01.2006" }}
+          </time>
+          <h2 class="newscard__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+          {{ with .Params.cover }}
+            <img class="newscard__cover" src="{{ . }}" alt="" loading="lazy">
+          {{ end }}
+          <p class="newscard__summary">{{ .Summary }}</p>
+        </li>
+      {{ end }}
+    </ul>
+  {{ else }}
+    <p class="page__empty">Новостей пока нет.</p>
+  {{ end }}
+</article>
+{{ end }}

@@ -1,0 +1,6 @@
+{{/* Поиск по сайту. Индекс собирает Pagefind при сборке, работает без сервера. */}}
+<form class="search" action="{{ "poisk/" | relURL }}" method="get" role="search">
+  <label class="visually-hidden" for="site-search">Поиск по сайту</label>
+  <input id="site-search" type="search" name="q" placeholder="Поиск по сайту" autocomplete="off">
+  <button type="submit">Найти</button>
+</form>

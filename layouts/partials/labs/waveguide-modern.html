@@ -1,0 +1,50 @@
+{{/* Современная модель волновода: та же физика, что в классике, но размеры
+     сечения открыты — в апплете они были зашиты на 23 × 10 мм. */}}
+<div class="lab__stage">
+  <canvas id="wgPlot" aria-label="Распределение амплитуды поля вдоль измерительной линии"></canvas>
+</div>
+
+<div class="lab__controls">
+  <fieldset>
+    <legend>Волновод</legend>
+    <label for="wgA">Широкая стенка a <span class="val" id="wgAVal">23,0</span> мм</label>
+    <input type="range" id="wgA" min="10" max="60" step="0.5" value="23">
+    <label for="wgB">Узкая стенка b <span class="val" id="wgBVal">10,0</span> мм</label>
+    <input type="range" id="wgB" min="2" max="30" step="0.5" value="10">
+  </fieldset>
+
+  <fieldset>
+    <legend>Генератор и тракт</legend>
+    <label for="wgFreq">Частота <span class="val" id="wgFreqVal">10,00</span> ГГц</label>
+    <input type="range" id="wgFreq" min="1" max="40" step="0.01" value="10">
+    <label for="wgLoad">Нагрузка</label>
+    <select id="wgLoad">
+      <option value="short">Короткое замыкание</option>
+      <option value="match">Согласованная</option>
+      <option value="tract">Тракт с потерями</option>
+    </select>
+    <label for="wgProbe">Координата зонда <span class="val" id="wgProbeVal">0,0</span> мм</label>
+    <input type="range" id="wgProbe" min="0" max="60" step="0.1" value="0">
+  </fieldset>
+</div>
+
+<div class="lab__readouts">
+  <div class="lab__cell">
+    <div class="lab__k">Критическая частота</div>
+    <div class="lab__v"><span id="wgFcr">—</span> <span class="lab__u">ГГц</span></div>
+  </div>
+  <div class="lab__cell">
+    <div class="lab__k">Длина волны в волноводе</div>
+    <div class="lab__v"><span id="wgLambda">—</span> <span class="lab__u">мм</span></div>
+  </div>
+  <div class="lab__cell">
+    <div class="lab__k">КСВ</div>
+    <div class="lab__v"><span id="wgSwr">—</span></div>
+  </div>
+  <div class="lab__cell">
+    <div class="lab__k">Амплитуда на зонде</div>
+    <div class="lab__v"><span id="wgAmp">—</span> <span class="lab__u">отн. ед.</span></div>
+  </div>
+</div>
+
+<p class="lab__hint" id="wgMode"></p>

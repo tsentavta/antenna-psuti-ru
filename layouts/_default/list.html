@@ -1,0 +1,33 @@
+{{ define "main" }}
+<article class="page">
+  <h1 class="page__title">{{ .Title }}</h1>
+
+  {{ with .Params.reviewNote }}
+    <p class="page__review" role="note">{{ . }}</p>
+  {{ end }}
+
+  {{ if and .Content (not .Params.emptyPage) }}
+    <div class="page__body">{{ .Content }}</div>
+  {{ end }}
+
+  {{ $kids := .Pages.ByWeight }}
+  {{ if $kids }}
+    <ul class="cards">
+      {{ range $kids }}
+        <li class="card">
+          <a class="card__link" href="{{ .RelPermalink }}">
+            <span class="card__title">{{ .Title }}</span>
+            {{ $n := len .Pages }}
+            {{ if gt $n 0 }}<span class="card__meta">{{ $n }} {{ cond (eq $n 1) "раздел" "разделов" }}</span>{{ end }}
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+  {{ else if .Params.emptyPage }}
+    <p class="page__empty">
+      Раздел готовится к публикации. По вопросам обращайтесь на кафедру:
+      <a href="tel:{{ .Site.Params.phoneLink }}">{{ .Site.Params.phone }}</a>.
+    </p>
+  {{ end }}
+</article>
+{{ end }}

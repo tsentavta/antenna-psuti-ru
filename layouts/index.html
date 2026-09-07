@@ -1,0 +1,89 @@
+{{ define "main" }}
+{{/* Старые адреса вида /?page=<алиас> переводим на новые. На Apache то же самое
+     делает .htaccess настоящим 301; здесь — чтобы работало на любом хостинге. */}}
+<script>
+(function () {
+  var alias = new URLSearchParams(location.search).get("page");
+  if (!alias) return;
+  var routes = {{ hugo.Data.routes | jsonify | safeJS }};
+  if (routes[alias]) location.replace(routes[alias]);
+})();
+</script>
+<div class="home">
+
+  <section class="hero">
+    <h1 class="hero__title">{{ .Site.Params.department }}</h1>
+    <p class="hero__lead">{{ .Site.Params.university }}</p>
+    {{ if and .Content (not .Params.emptyPage) }}
+      <div class="hero__body">{{ .Content }}</div>
+    {{ end }}
+  </section>
+
+  {{ $news := where .Site.RegularPages "Section" "novosti" }}
+  {{ $latest := first 3 ($news.ByDate.Reverse) }}
+
+  <div class="home__cols">
+
+    <section class="home__main">
+      <h2>Разделы сайта</h2>
+      <ul class="cards">
+        {{ range .Site.Home.Sections.ByWeight }}
+          {{ if and (ne .Section "novosti") (not .Params.hideInMenu) }}
+            <li class="card">
+              <a class="card__link" href="{{ .RelPermalink }}">
+                <span class="card__title">{{ .Title }}</span>
+                {{ $n := len .Pages }}
+                {{ if gt $n 0 }}<span class="card__meta">{{ $n }} подразделов</span>{{ end }}
+              </a>
+            </li>
+          {{ end }}
+        {{ end }}
+        {{ range where .Site.RegularPages "Section" "" }}
+          <li class="card">
+            <a class="card__link" href="{{ .RelPermalink }}">
+              <span class="card__title">{{ .Title }}</span>
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+
+      <h2>Лабораторные работы</h2>
+      <ul class="cards cards--labs">
+        <li class="card"><a class="card__link" href="{{ "labs/classic/skin-effect/" | relURL }}"><span class="card__title">Скин-эффект</span></a></li>
+        <li class="card"><a class="card__link" href="{{ "labs/classic/waveguide/" | relURL }}"><span class="card__title">Прямоугольный волновод</span></a></li>
+        <li class="card"><a class="card__link" href="{{ "labs/classic/resonator/" | relURL }}"><span class="card__title">Объёмный резонатор</span></a></li>
+        <li class="card"><a class="card__link" href="{{ "labs/classic/impedance/" | relURL }}"><span class="card__title">Полные сопротивления</span></a></li>
+      </ul>
+    </section>
+
+    <aside class="home__side">
+      {{/* Блок новостей появляется, только когда новости есть:
+           пустая колонка «Новостей нет» выглядит хуже её отсутствия. */}}
+      {{ if $latest }}
+        <h2 class="side__title">Новости</h2>
+        <ul class="newslist">
+          {{ range $latest }}
+            <li class="newsitem">
+              <time class="newsitem__date" datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "02.01.2006" }}
+              </time>
+              <a class="newsitem__link" href="{{ .RelPermalink }}">{{ .Title }}</a>
+            </li>
+          {{ end }}
+        </ul>
+        {{ if gt (len $news) 3 }}
+          <p><a class="more" href="{{ "novosti/" | relURL }}">Все новости →</a></p>
+        {{ end }}
+      {{ end }}
+
+      <h2 class="side__title">Контакты</h2>
+      <p class="side__contacts">
+        {{ .Site.Params.address }}<br>
+        <a href="tel:{{ .Site.Params.phoneLink }}">{{ .Site.Params.phone }}</a>
+      </p>
+      <p><a class="more" href="{{ "kontakty/" | relURL }}">Как добраться →</a></p>
+    </aside>
+
+  </div>
+</div>
+{{ end }}

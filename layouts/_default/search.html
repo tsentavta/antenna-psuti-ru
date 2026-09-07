@@ -1,0 +1,37 @@
+{{ define "main" }}
+<article class="page">
+  <h1 class="page__title">{{ .Title }}</h1>
+
+  {{/* Pagefind собирает индекс при сборке и ищет прямо в браузере — сервер не нужен. */}}
+  <link href="{{ "pagefind/pagefind-ui.css" | relURL }}" rel="stylesheet">
+  <div id="search" class="pagefind"></div>
+  <noscript>
+    <p class="page__empty">
+      Поиск работает при включённом JavaScript. Воспользуйтесь меню разделов
+      или обратитесь на кафедру: <a href="tel:{{ .Site.Params.phoneLink }}">{{ .Site.Params.phone }}</a>.
+    </p>
+  </noscript>
+
+  <script src="{{ "pagefind/pagefind-ui.js" | relURL }}"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      if (typeof PagefindUI === "undefined") return;
+      var ui = new PagefindUI({
+        element: "#search",
+        showSubResults: true,
+        translations: {
+          placeholder: "Что найти?",
+          clear_search: "Очистить",
+          load_more: "Показать ещё",
+          search_label: "Поиск по сайту",
+          zero_results: "По запросу «[SEARCH_TERM]» ничего не найдено",
+          many_results: "Найдено результатов: [COUNT]",
+          one_result: "Найден один результат"
+        }
+      });
+      var q = new URLSearchParams(location.search).get("q");
+      if (q) ui.triggerSearch(q);
+    });
+  </script>
+</article>
+{{ end }}

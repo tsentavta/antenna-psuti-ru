@@ -1,0 +1,42 @@
+/* Стенд работы «Исследование поля прямоугольного волновода»: координаты органов управления привязаны
+   к картинке прибора из исходного апплета, поэтому вёрстка своя. */
+
+.standbox { overflow-x:auto; margin-bottom:12px; }
+.stand {
+    position:relative; width:682px; height:356px;
+    background:url("../img/labs/Equipment2.gif") no-repeat 0 0;
+    transform-origin:top left; font-family:"Courier New",Courier,monospace;
+    user-select:none;
+  }
+.stand .lb {
+    position:absolute; font:11px/13px "Courier New",Courier,monospace; text-align:center;
+    background:#cfe9e4; color:#062b28; border:1px solid #7ba8a2; overflow:hidden; padding:0;
+  }
+.stand .lb.off { background:#6f9a97; color:#4a706d; }
+.stand input.lb { -moz-appearance:textfield; }
+.stand input.lb::-webkit-outer-spin-button,
+  .stand input.lb::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+.stand input.lb:focus { outline:2px solid #f0c419; outline-offset:-2px; background:#eafaf6; }
+.stand input.lb.bad { background:#f6c9c4; color:#7a1c12; }
+.stand input[type=range] { position:absolute; margin:0; height:7px; accent-color:#04564f; cursor:pointer; }
+.stand select {
+    position:absolute; font:11px "Courier New",monospace; padding:0 2px;
+    background:#cfe9e4; color:#062b28; border:1px solid #7ba8a2;
+  }
+.stand .tgl {
+    position:absolute; padding:0; border:1px solid #04564f; background:#8fbdb7;
+    cursor:pointer; font-size:8px; line-height:1;
+  }
+.stand .tgl[aria-pressed="true"] { background:#7fe0a0; }
+.stand .arrow {
+    position:absolute; padding:0; border:1px solid #04564f; background:#8fbdb7;
+    cursor:pointer; font:9px/1 "Courier New",monospace;
+  }
+.stand .head { position:absolute; width:84px; height:67px; cursor:ew-resize; z-index:3; }
+.stand #graph { position:absolute; background:#04231f; cursor:ew-resize; }
+.stand #cable { position:absolute; left:0; top:0; pointer-events:none; z-index:2; }
+.stand .offlabel {
+    position:absolute; display:none; align-items:center; justify-content:center;
+    background:#b8342a; color:#fff; font:bold 12px system-ui,sans-serif; text-align:center; z-index:4;
+  }
+.stand.cutoff .offlabel { display:flex; }

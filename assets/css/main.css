@@ -1,0 +1,543 @@
+/* Кафедра радиоэлектронных систем ПГУТИ
+   Палитра унаследована от прежней темы сайта, чтобы сохранить узнаваемость:
+   #18507c, #679ebc, #3a6b85, #7ca3b5, #dbe7f2 */
+
+/* ---------- гарнитура ---------- */
+/* IBM Plex Sans, вариативная (100–700), лицензия SIL OFL.
+   Файлы лежат на сервере кафедры: внешний CDN — лишняя зависимость
+   и точка отказа. Подмножества разделены unicode-range, браузер
+   тянет только те, что реально встретились на странице. */
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-sans-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-sans-cyrillic-ext.woff2") format("woff2");
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-sans-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-sans-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: italic;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-sans-cyrillic-italic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: italic;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-sans-latin-italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --blue-dark:  #18507c;
+  --blue:       #3a6b85;
+  --blue-mid:   #679ebc;
+  --blue-soft:  #7ca3b5;
+  --blue-pale:  #dbe7f2;
+
+  --ink:        #1e2a33;
+  --ink-soft:   #52616e;
+  --bg:         #ffffff;
+  --bg-alt:     #f4f7fa;
+  --line:       #d3dee7;
+  --accent:     var(--blue-dark);
+  /* Роли разделены: в контрастных схемах текст и фон не должны
+     схлопываться в один цвет. */
+  --heading:      #18507c;   /* цвет заголовков и названий */
+  --surface-dark: #18507c;   /* фон меню, подвала, кнопок */
+  --on-dark:      #ffffff;   /* текст на тёмной поверхности */
+  --link:       #14608f;
+  --link-hover: #0f4468;
+  --focus:      #b8860b;
+
+  --font: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-size: 17px;
+  --line-height: 1.65;
+  --letter-spacing: normal;
+  --wrap: 1180px;
+  --radius: 6px;
+}
+
+/* ---------- режимы для слабовидящих (ГОСТ Р 52872-2019) ---------- */
+
+[data-size="large"]  { --font-size: 21px; }
+[data-size="xlarge"] { --font-size: 26px; }
+[data-spacing="wide"] { --letter-spacing: 0.09em; --line-height: 1.9; }
+
+[data-scheme="black-white"] {
+  --ink: #000; --ink-soft: #000; --bg: #fff; --bg-alt: #fff;
+  --line: #000; --accent: #000; --link: #000; --link-hover: #000;
+  --blue-dark: #000; --blue: #000; --blue-mid: #000; --blue-pale: #fff; --blue-soft: #000;
+  --heading: #000; --surface-dark: #fff; --on-dark: #000; --focus: #000;
+}
+[data-scheme="white-black"] {
+  --ink: #fff; --ink-soft: #fff; --bg: #000; --bg-alt: #000;
+  --line: #fff; --accent: #fff; --link: #ffe680; --link-hover: #fff;
+  --blue-dark: #000; --blue: #000; --blue-mid: #fff; --blue-pale: #000; --blue-soft: #fff;
+  --heading: #fff; --surface-dark: #000; --on-dark: #fff; --focus: #ffe680;
+}
+[data-scheme="blue-cyan"] {
+  --ink: #063462; --ink-soft: #063462; --bg: #9dd1ff; --bg-alt: #9dd1ff;
+  --line: #063462; --accent: #063462; --link: #063462; --link-hover: #000;
+  --blue-dark: #063462; --blue: #063462; --blue-mid: #063462; --blue-pale: #9dd1ff;
+  --blue-soft: #063462; --heading: #063462; --surface-dark: #9dd1ff;
+  --on-dark: #063462; --focus: #063462;
+}
+/* В контрастных схемах убираем фоновые заливки и тени */
+[data-scheme]:not([data-scheme="normal"]) .card,
+[data-scheme]:not([data-scheme="normal"]) .newscard,
+[data-scheme]:not([data-scheme="normal"]) .site-header,
+[data-scheme]:not([data-scheme="normal"]) .site-footer { box-shadow: none; }
+[data-scheme]:not([data-scheme="normal"]) * { border-color: var(--line) !important; }
+
+[data-images="off"] img,
+[data-images="off"] .brand__logo,
+[data-images="off"] video { display: none !important; }
+
+/* ---------- база ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: var(--font-size); }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
+}
+
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 20px; }
+
+a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--link-hover); }
+/* Двухслойное кольцо: между элементом и золотым контуром — полоса цвета
+   страницы. Без неё на синей полосе меню индикатор даёт 2,6:1 вместо 3:1. */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--bg);
+}
+
+img { max-width: 100%; height: auto; }
+
+h1, h2, h3, h4 { line-height: 1.25; color: var(--heading); margin: 1.6em 0 .5em; }
+h1 { font-size: 1.9rem; margin-top: 0; }
+h2 { font-size: 1.45rem; }
+h3 { font-size: 1.1rem; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--surface-dark); color: var(--on-dark); padding: 10px 18px;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- панель доступности ---------- */
+
+.a11y-bar { background: var(--bg-alt); border-bottom: 2px solid var(--blue-dark); padding: 12px 0; }
+.a11y-bar__inner { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+.a11y-group { display: flex; align-items: center; gap: 6px; }
+.a11y-group__label { font-size: .82rem; color: var(--ink-soft); margin-right: 2px; }
+.a11y-bar button {
+  font: inherit; font-size: .85rem; padding: 5px 10px; cursor: pointer;
+  background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+.a11y-bar button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+[data-a11y="size"][data-value="normal"] { font-size: .85rem; }
+[data-a11y="size"][data-value="large"]  { font-size: 1.05rem; }
+[data-a11y="size"][data-value="xlarge"] { font-size: 1.3rem; }
+.a11y-reset { margin-left: auto; }
+
+/* ---------- шапка ---------- */
+
+.site-header { border-bottom: 1px solid var(--line); background: var(--bg); }
+/* flex-wrap здесь обязателен: при крупном кегле ГОСТ-режима логотипы,
+   название и инструменты перестают помещаться в строку даже на широком
+   экране, и без переноса они наезжают друг на друга. */
+.header-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding-top: 16px; padding-bottom: 16px; }
+
+.brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; }
+.brand__logo { display: block; width: auto; height: 42px; }
+/* Тонкая линейка отделяет знак кафедры от знака университета:
+   без неё два разных по строю логотипа читаются как один. */
+/* Квадратный знак кафедры чуть выше словесного знака ПГУТИ:
+   при равной высоте компактный бейдж выглядит мельче. */
+.brand__logo--res { height: 48px; }
+.brand__logo--psuti { padding-left: 14px; border-left: 1px solid var(--line); }
+/* В контрастных схемах цветной растр теряется на тёмном фоне —
+   подкладываем белое поле, иначе тёмно-зелёный знак сливается с чёрным. */
+[data-scheme]:not([data-scheme="normal"]) .brand__logo {
+  background: #fff; padding: 3px; border-radius: 3px;
+}
+[data-scheme]:not([data-scheme="normal"]) .brand__logo--psuti { border-left: 0; margin-left: 8px; }
+.brand__text { display: flex; flex-direction: column; min-width: 0; }
+.brand__dept--short { display: none; }
+.brand__dept { font-weight: 700; color: var(--heading); font-size: 1.02rem; line-height: 1.2; }
+.brand__univ { font-size: .8rem; color: var(--ink-soft); }
+
+.header-tools { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.a11y-open {
+  font: inherit; font-size: .85rem; cursor: pointer; white-space: nowrap;
+  background: var(--bg-alt); color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 7px 12px;
+}
+.a11y-open:hover { border-color: var(--blue-mid); }
+
+.search { display: flex; gap: 6px; }
+.search input {
+  font: inherit; font-size: .9rem; padding: 7px 11px; min-width: 190px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--bg); color: var(--ink);
+}
+.search button {
+  font: inherit; font-size: .9rem; padding: 7px 14px; cursor: pointer;
+  background: var(--surface-dark); color: var(--on-dark); border: 1px solid var(--surface-dark);
+  border-radius: var(--radius);
+}
+
+.nav-toggle { display: none; }
+
+/* ---------- меню ---------- */
+
+.site-nav { background: var(--surface-dark); }
+[data-scheme="white-black"] .site-nav,
+[data-scheme="black-white"] .site-nav,
+[data-scheme="blue-cyan"] .site-nav { background: var(--bg); border-bottom: 2px solid var(--line); }
+
+/* margin: 0 auto, а не 0: элемент несёт и класс .wrap, а короткая запись
+   margin: 0 ниже по файлу затирала его автоцентрирование — на широком
+   экране меню прижималось к левому краю окна. То же у крошек. */
+.nav-list { list-style: none; margin: 0 auto; display: flex; flex-wrap: wrap; }
+.nav-list__item a {
+  display: block; padding: 12px 16px; color: var(--on-dark); text-decoration: none;
+  font-size: .92rem; font-weight: 600;
+}
+[data-scheme]:not([data-scheme="normal"]) .nav-list__item a,
+[data-scheme]:not([data-scheme="normal"]) .nav-sub a { color: var(--link); }
+.nav-list__item a:hover { background: rgba(255, 255, 255, .14); }
+.nav-list__item a[aria-current="page"] { background: var(--bg); color: var(--heading); }
+
+/* ---------- выпадающие подразделы ---------- */
+
+/* Открывается по наведению и по фокусу: focus-within нужен, чтобы меню
+   работало с клавиатуры, а не только мышью. */
+.nav-list__item--has-sub { position: relative; }
+.nav-list__item--has-sub > a::after {
+  content: "";
+  display: inline-block;
+  margin-left: 7px;
+  border: 4px solid transparent;
+  border-top-color: currentColor;
+  vertical-align: 2px;
+}
+
+.nav-sub {
+  position: absolute;
+  z-index: 20;
+  top: 100%;
+  left: 0;
+  min-width: 240px;
+  max-width: 320px;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-top: 0;
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .16);
+  /* Скрыто, но остаётся в дереве доступности до открытия по фокусу. */
+  visibility: hidden;
+  opacity: 0;
+}
+.nav-list__item--has-sub:hover > .nav-sub,
+.nav-list__item--has-sub:focus-within > .nav-sub { visibility: visible; opacity: 1; }
+
+.nav-sub a {
+  display: block;
+  padding: 9px 16px;
+  font-size: .88rem;
+  font-weight: 400;
+  color: var(--link);
+  text-decoration: none;
+}
+.nav-sub a:hover { background: var(--bg-alt); }
+.nav-sub a[aria-current="page"] { font-weight: 600; background: var(--bg-alt); }
+
+/* Правый край: у последних пунктов список открывается влево, чтобы
+   не уезжать за границу страницы. */
+.nav-list__item--has-sub:nth-last-child(-n+3) > .nav-sub { left: auto; right: 0; }
+
+/* На устройствах без наведения список по ховеру не откроется — там работает
+   переход на страницу раздела, где подразделы перечислены карточками. */
+@media (hover: none) {
+  .nav-list__item--has-sub > a::after { display: none; }
+}
+
+/* ---------- крошки и плашки ---------- */
+
+.breadcrumbs { background: var(--bg-alt); border-bottom: 1px solid var(--line); font-size: .85rem; }
+.breadcrumbs__list { list-style: none; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 8px; padding-top: 10px; padding-bottom: 10px; }
+.breadcrumbs__list li + li::before { content: "→"; margin-right: 8px; color: var(--ink-soft); }
+.breadcrumbs__list [aria-current] { color: var(--ink-soft); }
+
+.notice {
+  margin-top: 16px; padding: 12px 16px; font-size: .9rem;
+  background: var(--blue-pale); border-left: 4px solid var(--blue-mid); border-radius: var(--radius);
+}
+
+/* ---------- содержимое ---------- */
+
+.site-main { padding: 32px 20px 60px; }
+
+.page__title { margin-bottom: .6em; }
+.page__review {
+  padding: 10px 14px; font-size: .9rem;
+  background: #fdf6e3; border-left: 4px solid #c9a227; border-radius: var(--radius);
+}
+[data-scheme]:not([data-scheme="normal"]) .page__review { background: var(--bg); border-left-color: var(--line); }
+.page__empty { color: var(--ink-soft); font-style: italic; }
+
+/* Мера строки задаётся самому тексту, а не контейнеру: таблицы и схемы
+   старой CMS должны получать всю ширину колонки, а не 72ch. */
+.page__body { max-width: none; }
+.page__body > p,
+.page__body > ul,
+.page__body > ol,
+.page__body > dl,
+.page__body > blockquote,
+.page__body > h2,
+.page__body > h3,
+.page__body > h4 { max-width: 72ch; }
+.page__body p { margin: 0 0 1em; }
+.page__body ul, .page__body ol { margin: 0 0 1em; padding-left: 1.4em; }
+.page__body li { margin-bottom: .35em; }
+.page__body img { border-radius: var(--radius); }
+/* виджеты старой CMS приходят с жёсткими размерами */
+.page__body iframe, .page__body embed, .page__body object { max-width: 100%; border-radius: var(--radius); }
+.page__body table { border-collapse: collapse; width: 100%; max-width: 100%; margin: 0 0 1.5em; font-size: .92rem; }
+.page__body th, .page__body td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+.page__body th { background: var(--bg-alt); }
+.page__body a[href$=".pdf"]::after,
+.page__body a[href$=".doc"]::after,
+.page__body a[href$=".docx"]::after { content: " (файл)"; font-size: .85em; color: var(--ink-soft); }
+
+/* Таблицы старой CMS часто шире колонки. Обёртку ставит site.js; без JS
+   таблица просто ужимается по колонке, а не тянет за собой страницу. */
+.table-scroll { overflow-x: auto; max-width: 100%; margin: 0 0 1.5em; }
+.table-scroll table { width: max-content; max-width: none; margin: 0; }
+
+.filelist { list-style: none; padding: 0; }
+.filelist li { margin-bottom: .4em; }
+
+/* ---------- карточки разделов ---------- */
+
+.cards { list-style: none; margin: 0 0 2em; padding: 0; display: grid; gap: 10px;
+         grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
+.card__link {
+  display: flex; flex-direction: column; gap: 4px; height: 100%;
+  padding: 12px 15px; text-decoration: none; color: var(--ink);
+  background: var(--bg-alt); border: 1px solid var(--line);
+  border-left: 4px solid var(--blue-mid); border-radius: var(--radius);
+}
+.card__link:hover { border-left-color: var(--blue-dark); background: var(--blue-pale); }
+.card__title { font-weight: 600; color: var(--heading); overflow-wrap: break-word; }
+.card__meta { font-size: .82rem; color: var(--ink-soft); }
+
+/* Лабораторные работы — то, чего нет у соседних кафедр. Поэтому они не
+   вторая такая же сетка навигации, а самостоятельный блок с приглашением. */
+.cards--labs { gap: 18px; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); }
+.cards--labs .card__link {
+  padding: 20px 22px 18px; background: var(--bg);
+  border-left: 1px solid var(--line); border-top: 4px solid var(--blue-dark);
+}
+.cards--labs .card__title { font-size: 1.2rem; line-height: 1.3; }
+.cards--labs .card__link::after {
+  content: "Открыть модель →";
+  margin-top: auto; padding-top: 14px;
+  font-size: .85rem; font-weight: 600; color: var(--link);
+}
+.cards--labs .card__link:hover { background: var(--blue-pale); border-left-color: var(--line); }
+
+/* ---------- главная ---------- */
+
+.hero { padding: 8px 0 24px; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
+.hero__title { margin: 0 0 .2em; font-size: clamp(2.1rem, 1.5rem + 2.4vw, 2.7rem); }
+.hero__lead { margin: 0; color: var(--ink-soft); font-size: 1.05rem; }
+.hero__body { margin-top: 1em; }
+
+.home__cols { display: grid; gap: 36px; grid-template-columns: minmax(0, 2.2fr) minmax(260px, 1fr); }
+.home__side { border-left: 1px solid var(--line); padding-left: 28px; }
+.side__title { margin-top: 0; font-size: 1.1rem; }
+.side__contacts { font-size: .92rem; }
+.more { font-weight: 600; text-decoration: none; }
+.more:hover { text-decoration: underline; }
+
+/* ---------- новости ---------- */
+
+.newslist { list-style: none; margin: 0 0 1.5em; padding: 0; }
+.newsitem { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.newsitem__date { display: block; font-size: .8rem; color: var(--ink-soft); }
+.newsitem__link { font-weight: 600; text-decoration: none; }
+.newsitem__link:hover { text-decoration: underline; }
+
+.newsfeed { list-style: none; margin: 0; padding: 0; }
+.newscard { padding: 20px 0; border-bottom: 1px solid var(--line); }
+.newscard__date { font-size: .82rem; color: var(--ink-soft); }
+.newscard__title { margin: .2em 0 .4em; font-size: 1.2rem; }
+.newscard__title a { text-decoration: none; }
+.newscard__cover { display: block; margin: .6em 0; border-radius: var(--radius); max-height: 260px; }
+.newscard__summary { margin: 0; color: var(--ink-soft); }
+
+.news__date { font-size: .88rem; color: var(--ink-soft); }
+.news__cover { display: block; margin: 0 0 1.2em; border-radius: var(--radius); }
+
+/* ---------- подвал ---------- */
+
+.site-footer { background: var(--surface-dark); color: var(--on-dark); margin-top: 40px; }
+[data-scheme]:not([data-scheme="normal"]) .site-footer { background: var(--bg); color: var(--ink); border-top: 2px solid var(--line); }
+.footer-inner { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                padding-top: 28px; padding-bottom: 28px; font-size: .9rem; }
+.site-footer a { color: #cfe3f5; }
+[data-scheme]:not([data-scheme="normal"]) .site-footer a { color: var(--link); }
+.site-footer p { margin: 0 0 .4em; }
+.footer-dept { font-weight: 700; font-size: 1rem; }
+.footer-links { list-style: none; margin: 0; padding: 0; }
+.footer-links li { margin-bottom: .4em; }
+
+/* ---------- адаптив ---------- */
+
+@media (max-width: 900px) {
+  .home__cols { grid-template-columns: 1fr; }
+  .home__side { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; padding-top: 24px; }
+}
+
+/* 900, а не 760: между 760 и 900 логотип, название и инструменты в строку
+   уже не помещаются и наезжают друг на друга, а меню из девяти пунктов
+   занимает три ряда. */
+@media (max-width: 900px) {
+  .header-inner { flex-wrap: wrap; }
+  .header-tools { width: 100%; order: 3; margin-left: 0; flex-wrap: wrap; }
+  .a11y-open { flex: 1 1 auto; }
+  .search { flex: 1 1 100%; }
+  .search input { min-width: 0; flex: 1; }
+  /* Базис 0 — иначе название кафедры занимает всю строку и «Меню» переносится. */
+  .brand { flex: 1 1 0; min-width: 0; }
+  .nav-toggle { flex: 0 0 auto; }
+  .brand__dept { font-size: .9rem; }
+  .brand__logo { height: 34px; }
+
+  /* Поиск и кнопка доступности переезжают внутрь меню: на 375 px они
+     занимали весь первый экран до названия кафедры. */
+  .header-tools { display: none; padding-top: 12px; gap: 10px; }
+  .site-header.is-open .header-tools { display: flex; }
+
+  .nav-toggle {
+    display: flex; align-items: center; gap: 8px; margin-left: auto;
+    font: inherit; font-size: .9rem; cursor: pointer; padding: 8px 12px;
+    background: var(--surface-dark); color: var(--on-dark); border: 0; border-radius: var(--radius);
+  }
+  .nav-toggle__bars, .nav-toggle__bars::before, .nav-toggle__bars::after {
+    display: block; width: 18px; height: 2px; background: currentColor; position: relative;
+  }
+  .nav-toggle__bars::before, .nav-toggle__bars::after { content: ""; position: absolute; left: 0; }
+  .nav-toggle__bars::before { top: -6px; }
+  .nav-toggle__bars::after  { top: 6px; }
+
+  .nav-list { display: none; flex-direction: column; }
+  .site-nav.is-open .nav-list { display: flex; }
+  .nav-list__item a { padding: 13px 20px; border-bottom: 1px solid rgba(255,255,255,.18); }
+
+  /* В раскрытом меню наводить не на что: подразделы показываем сразу,
+     отступом. Стрелка-указатель здесь не нужна. */
+  .nav-list__item--has-sub > a::after { display: none; }
+  .nav-sub {
+    position: static;
+    visibility: visible;
+    opacity: 1;
+    min-width: 0;
+    max-width: none;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .nav-sub a {
+    padding: 11px 20px 11px 40px;
+    font-size: .85rem;
+    color: var(--on-dark);
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+  }
+  .nav-sub a:hover { background: rgba(255, 255, 255, .12); }
+
+  .a11y-bar__inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .a11y-reset { margin-left: 0; }
+}
+
+/* Ниже 560 px два логотипа, название и «Меню» в строку уже не помещаются —
+   знак университета уходит, знак кафедры остаётся. */
+@media (max-width: 560px) {
+  .brand__logo--psuti { display: none; }
+}
+
+/* На узких экранах шапка должна оставаться в одну строку:
+   логотип, название и «Меню» без переноса. */
+@media (max-width: 430px) {
+  .header-inner { gap: 12px; }
+  .brand { gap: 10px; }
+  .brand__logo { height: 28px; }
+  .brand__dept { font-size: .82rem; display: none; }
+  .brand__dept--short { display: block; }
+  .nav-toggle { padding: 8px 10px; }
+}
+
+/* ---------- печать ---------- */
+
+@media print {
+  .site-nav, .a11y-bar, .a11y-open, .search, .breadcrumbs, .notice, .nav-toggle { display: none; }
+  body { font-size: 12pt; color: #000; background: #fff; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; }
+}

@@ -1,0 +1,83 @@
+# Настройки админки. Формат совместим с Decap CMS.
+#
+# ВАЖНО: замените OWNER/REPO на адрес вашего репозитория на GitHub,
+# иначе вход в админку работать не будет.
+
+backend:
+  name: github
+  repo: OWNER/REPO
+  branch: main
+  site_domain: example.github.io
+
+# Правки сохраняются сразу в основную ветку: редактор один,
+# согласование черновиков между людьми не нужно.
+publish_mode: simple
+
+media_folder: static/uploads
+public_folder: /uploads
+
+locale: ru
+site_url: /
+display_url: /
+
+collections:
+
+  - name: novosti
+    label: Новости
+    label_singular: Новость
+    folder: content/novosti
+    create: true
+    slug: "{{slug}}"
+    sortable_fields: [date, title]
+    summary: "{{date | date('DD.MM.YYYY')}} — {{title}}"
+    fields:
+      - { name: title, label: Заголовок, widget: string }
+      - { name: date, label: Дата, widget: datetime, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY", time_format: false }
+      - { name: draft, label: Черновик (не публиковать), widget: boolean, default: false, required: false }
+      - { name: cover, label: Картинка, widget: image, required: false, hint: "Показывается в списке новостей" }
+      - { name: body, label: Текст, widget: markdown }
+      - name: attachments
+        label: Прикреплённые файлы
+        widget: list
+        required: false
+        label_singular: Файл
+        fields:
+          - { name: name, label: Название, widget: string }
+          - { name: file, label: Файл, widget: file }
+
+  - name: stranicy
+    label: Страницы
+    folder: content
+    create: true
+    nested: { depth: 4 }
+    meta: { path: { widget: string, label: Путь, index_file: _index } }
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Заголовок, widget: string }
+      - { name: weight, label: Порядок в меню, widget: number, value_type: int, required: false, hint: "Меньше — выше в списке" }
+      - { name: draft, label: Черновик (не публиковать), widget: boolean, default: false, required: false }
+      - { name: reviewNote, label: Пометка о сверке, widget: string, required: false, hint: "Показывается на странице жёлтой плашкой" }
+      - { name: hideInMenu, label: Скрыть из меню, widget: boolean, default: false, required: false }
+      - { name: emptyPage, label: Раздел без текста, widget: boolean, default: false, required: false, hint: "Показать «готовится к публикации» вместо пустоты" }
+      - { name: body, label: Содержимое, widget: markdown, required: false }
+      - name: attachments
+        label: Прикреплённые файлы
+        widget: list
+        required: false
+        label_singular: Файл
+        fields:
+          - { name: name, label: Название, widget: string }
+          - { name: file, label: Файл, widget: file }
+
+  - name: nastrojki
+    label: Настройки сайта
+    files:
+      - name: kontakty
+        label: Контакты и подписи
+        file: data/site.yml
+        fields:
+          - { name: department, label: Название кафедры, widget: string }
+          - { name: university, label: Название университета, widget: string }
+          - { name: address, label: Адрес, widget: string }
+          - { name: phone, label: Телефон, widget: string }
+          - { name: showRestoreNotice, label: Показывать плашку о восстановлении, widget: boolean, default: true }

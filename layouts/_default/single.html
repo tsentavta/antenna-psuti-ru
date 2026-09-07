@@ -1,0 +1,25 @@
+{{ define "main" }}
+<article class="page">
+  <h1 class="page__title">{{ .Title }}</h1>
+
+  {{ with .Params.reviewNote }}
+    <p class="page__review" role="note">{{ . }}</p>
+  {{ end }}
+
+  {{ if .Params.emptyPage }}
+    <p class="page__empty">
+      Раздел готовится к публикации. Материалы будут добавлены в ближайшее время.
+      По вопросам обращайтесь на кафедру: <a href="tel:{{ .Site.Params.phoneLink }}">{{ .Site.Params.phone }}</a>.
+    </p>
+  {{ else }}
+    <div class="page__body">{{ .Content }}</div>
+  {{ end }}
+
+  {{ with .Params.attachments }}
+    <h2>Файлы</h2>
+    <ul class="filelist">
+      {{ range . }}<li><a href="{{ .file }}">{{ .name }}</a></li>{{ end }}
+    </ul>
+  {{ end }}
+</article>
+{{ end }}

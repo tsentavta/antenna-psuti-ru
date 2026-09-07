@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ .Site.Title }} — {{ .Site.Params.universityShort }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.department }}, {{ .Site.Params.university }}{{ end }}">
+<meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+{{/* Основное начертание грузим заранее: кириллица нужна на каждой странице. */}}
+<link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="32x32">
+<link rel="icon" href="{{ "img/favicon-32.png" | relURL }}" type="image/png">
+<link rel="apple-touch-icon" href="{{ "img/favicon-180.png" | relURL }}">
+<link rel="preload" href="{{ "fonts/ibm-plex-sans-cyrillic.woff2" | relURL }}"
+      as="font" type="font/woff2" crossorigin>
+{{/* Отпечаток в имени: без него браузер держит старую таблицу стилей
+     и после правки сайт выглядит как вчера. */}}
+{{ with resources.Get "css/main.css" }}<link rel="stylesheet" href="{{ (. | fingerprint).RelPermalink }}">{{ end }}
+{{/* Точка расширения: страница может добавить свои стили. */}}
+{{ block "head" . }}{{ end }}
+{{ with .OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ $.Site.Title }}">{{ end }}
+<script>
+/* Режим для слабовидящих применяется до отрисовки, чтобы не мигало. */
+(function () {
+  try {
+    var s = localStorage.getItem("a11y");
+    if (s) {
+      var v = JSON.parse(s), r = document.documentElement;
+      if (v.scheme) r.setAttribute("data-scheme", v.scheme);
+      if (v.size) r.setAttribute("data-size", v.size);
+      if (v.images === "off") r.setAttribute("data-images", "off");
+      if (v.spacing) r.setAttribute("data-spacing", v.spacing);
+    }
+  } catch (e) {}
+})();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Перейти к содержанию</a>
+
+{{ partial "a11y-bar.html" . }}
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="{{ "" | relURL }}">
+      {{/* Знак кафедры первый: он опознаёт этот сайт. Alt пустой —
+           название кафедры стоит рядом текстом, дублировать его для
+           скринридера не нужно. */}}
+      <img class="brand__logo brand__logo--res" src="{{ "img/logo-res.png" | relURL }}"
+           alt="" width="332" height="311">
+      <img class="brand__logo brand__logo--psuti" src="{{ "img/logo-psuti.png" | relURL }}"
+           alt="{{ .Site.Params.universityShort }}" width="182" height="42">
+      <span class="brand__text">
+        {{/* На узких экранах длинное название наезжает на кнопку меню,
+             поэтому там показываем сокращённое (скрытое display:none
+             не попадает в дерево доступности — дублирования не будет). */}}
+        <span class="brand__dept">{{ .Site.Params.department }}</span>
+        <span class="brand__dept brand__dept--short">{{ .Site.Params.departmentShort }}</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+      <span class="nav-toggle__bars" aria-hidden="true"></span>
+      <span class="nav-toggle__label">Меню</span>
+    </button>
+
+    <div class="header-tools">
+      <button class="a11y-open" type="button" aria-expanded="false" aria-controls="a11y-bar"
+              title="Версия для слабовидящих">
+        <span aria-hidden="true">👁</span> Для слабовидящих
+      </button>
+      {{ partial "search-box.html" . }}
+    </div>
+  </div>
+
+  <nav class="site-nav" aria-label="Основные разделы">
+    <ul id="primary-nav" class="wrap nav-list">
+      {{ $cur := . }}
+      {{ range .Site.Home.Sections.ByWeight }}
+        {{ if not .Params.hideInMenu }}
+        {{/* Подразделы показываем списком при наведении. Из новостей список
+             не делаем: там дочерние страницы — сами новости, а не навигация. */}}
+        {{ $kids := slice }}
+        {{ if ne .Section "novosti" }}
+          {{ range .Pages }}
+            {{ if not .Params.hideInMenu }}{{ $kids = $kids | append . }}{{ end }}
+          {{ end }}
+        {{ end }}
+        <li class="nav-list__item{{ if $kids }} nav-list__item--has-sub{{ end }}">
+          <a href="{{ .RelPermalink }}"
+             {{ if or (eq $cur .) ($cur.IsDescendant .) }}aria-current="page"{{ end }}>{{ .Title }}</a>
+          {{ with $kids }}
+            <ul class="nav-sub">
+              {{ range . }}
+                <li><a href="{{ .RelPermalink }}"
+                       {{ if or (eq $cur .) ($cur.IsDescendant .) }}aria-current="page"{{ end }}>{{ .Title }}</a></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+        </li>
+        {{ end }}
+      {{ end }}
+      {{ range where .Site.RegularPages "Section" "" }}
+        {{ if not .Params.hideInMenu }}
+        <li class="nav-list__item">
+          <a href="{{ .RelPermalink }}"
+             {{ if eq $cur . }}aria-current="page"{{ end }}>{{ .Title }}</a>
+        </li>
+        {{ end }}
+      {{ end }}
+    </ul>
+  </nav>
+</header>
+
+{{ if not .IsHome }}{{ partial "breadcrumbs.html" . }}{{ end }}
+
+<main id="main" class="wrap site-main">
+  {{ block "main" . }}{{ end }}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-block">
+      <p class="footer-dept">{{ .Site.Params.department }}</p>
+      <p>{{ .Site.Params.university }}</p>
+    </div>
+    <div class="footer-block">
+      <p>{{ .Site.Params.address }}</p>
+      <p><a href="tel:{{ .Site.Params.phoneLink }}">{{ .Site.Params.phone }}</a></p>
+    </div>
+    <div class="footer-block">
+      <ul class="footer-links">
+        {{ range .Site.Menus.footer }}
+          <li><a href="{{ .URL }}" rel="noopener">{{ .Name }}</a></li>
+        {{ end }}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+{{ with resources.Get "js/site.js" }}<script src="{{ (. | fingerprint).RelPermalink }}" defer></script>{{ end }}
+{{ block "scripts" . }}{{ end }}
+</body>
+</html>

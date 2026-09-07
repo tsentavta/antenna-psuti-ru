@@ -1,0 +1,9 @@
+{{/* Хлебные крошки. .Ancestors отдаёт цепочку родителей до главной. */}}
+<nav class="breadcrumbs" aria-label="Вы здесь">
+  <ol class="wrap breadcrumbs__list">
+    {{ range .Ancestors.Reverse }}
+      <li><a href="{{ .RelPermalink }}">{{ if .IsHome }}Главная{{ else }}{{ .Title }}{{ end }}</a></li>
+    {{ end }}
+    <li aria-current="page">{{ .Title }}</li>
+  </ol>
+</nav>

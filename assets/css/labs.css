@@ -1,0 +1,197 @@
+/* Лабораторные работы. Подключается только на страницах раздела labs.
+
+   Обе линии — классическая и современная — живут в общей вёрстке сайта:
+   шапка, меню, крошки и режимы ГОСТ работают в них так же, как везде. */
+
+/* Переменные, которые читают модели из JS. Взяты из токенов сайта, поэтому
+   при смене контрастной схемы график перекрашивается вместе со страницей. */
+:root {
+  --grid:     var(--line);
+  --axis:     var(--ink-soft);
+  --muted:    var(--ink-soft);
+  --plot-bg:  var(--bg-alt);
+  --wave:     var(--link);
+  --envelope: #b03a2e;
+  --probe:    #1f7a44;
+}
+
+/* В контрастных схемах цветом различать кривые нельзя — все три становятся
+   цветом текста, а различают их тип линии (огибающая пунктиром) и маркер
+   зонда. Опора на один только цвет не годится и по WCAG. */
+[data-scheme]:not([data-scheme="normal"]) {
+  --wave:     var(--ink);
+  --envelope: var(--ink);
+  --probe:    var(--ink);
+}
+
+/* ---------- плашка перехода между версиями ---------- */
+
+.lab__switch {
+  margin: 0 0 22px;
+  padding: 12px 16px;
+  font-size: .93rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--blue-mid);
+  border-radius: var(--radius);
+}
+.lab__switch-link { font-weight: 600; white-space: nowrap; }
+
+.lab__sub { margin: -.4em 0 20px; color: var(--ink-soft); }
+
+.lab__back { margin-top: 32px; font-weight: 600; }
+
+/* ---------- сцена модели ---------- */
+
+.lab__stage {
+  margin: 0 0 20px;
+  padding: 12px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.lab__stage canvas { display: block; max-width: 100%; }
+
+/* Режим «картинки скрыть» прячет иллюстрации, но не прибор: модель —
+   содержание работы, без неё лабораторную не выполнить. У классических
+   работ подвижная детекторная головка — тоже <img>, и без неё стенд
+   превращается в картинку без органов управления. */
+[data-images="off"] .lab__stage img,
+[data-images="off"] .standbox img { display: block !important; }
+
+.lab__hint { margin: 0 0 22px; font-size: .9rem; color: var(--ink-soft); }
+
+/* ---------- органы управления современной версии ---------- */
+
+.lab__controls {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  margin: 0 0 18px;
+}
+.lab__controls fieldset {
+  margin: 0;
+  padding: 14px 16px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.lab__controls legend { padding: 0 6px; font-size: .85rem; font-weight: 600; color: var(--heading); }
+.lab__controls label { display: block; font-size: .88rem; color: var(--ink-soft); }
+.lab__controls .val { font-weight: 600; color: var(--ink); }
+.lab__controls select,
+.lab__controls input[type="range"] { width: 100%; margin-top: 6px; font: inherit; }
+.lab__controls select {
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+}
+.lab__controls button {
+  font: inherit;
+  font-size: .9rem;
+  padding: 7px 16px;
+  cursor: pointer;
+  border: 1px solid var(--surface-dark);
+  border-radius: var(--radius);
+  background: var(--surface-dark);
+  color: var(--on-dark);
+}
+
+/* ---------- табло показаний ---------- */
+
+.lab__readouts {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  margin: 0 0 22px;
+}
+.lab__cell {
+  padding: 10px 14px;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--blue-mid);
+  border-radius: var(--radius);
+}
+.lab__k { font-size: .8rem; color: var(--ink-soft); }
+.lab__v { font-size: 1.25rem; font-weight: 600; color: var(--heading); font-variant-numeric: tabular-nums; }
+.lab__u { font-size: .8rem; font-weight: 400; color: var(--ink-soft); }
+
+/* ---------- классическая линия ---------- */
+
+/* Прибор 2001 года: бирюза и серебро взяты пипеткой из Equipment2.gif
+   и DetectHead.gif в исходных апплетах, чтобы четыре работы смотрелись
+   одним комплектом. */
+.lab--classic .lab__stage {
+  display: flex;
+  justify-content: center;
+  padding: 18px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0;
+}
+.lab--classic .lab__panel {
+  width: 348px;
+  max-width: 100%;
+  background: #187878;
+  border: 2px solid;
+  border-color: #80e0e0 #0d4a4a #0d4a4a #80e0e0;
+  padding: 8px;
+  font-family: Verdana, "DejaVu Sans", sans-serif;
+  font-size: 11px;
+  color: #ffffff;
+}
+.lab--classic .lab__panel-title {
+  margin: 0 0 8px;
+  padding: 3px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  color: #ffffff;
+  background: #008080;
+  border: 1px solid;
+  border-color: #80e0e0 #0d4a4a #0d4a4a #80e0e0;
+}
+.lab--classic canvas {
+  background: #ffffff;
+  border: 2px solid;
+  border-color: #0d4a4a #80e0e0 #80e0e0 #0d4a4a;
+  touch-action: none;
+  cursor: crosshair;
+}
+.lab--classic .lab__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+}
+.lab--classic .lab__row label { flex: none; }
+.lab--classic .lab__row select,
+.lab--classic .lab__row input[type="range"] {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 11px;
+}
+.lab--classic .lab__lcd {
+  flex: none;
+  min-width: 74px;
+  padding: 2px 5px;
+  text-align: right;
+  color: #30c8c8;
+  background: #0d3a3a;
+  border: 1px solid;
+  border-color: #0d4a4a #80e0e0 #80e0e0 #0d4a4a;
+  font-variant-numeric: tabular-nums;
+}
+
+/* В контрастных схемах прибор остаётся собой: это воспроизведение внешнего
+   вида исходного апплета, и перекрашивать его под схему нечестно. */
+[data-scheme]:not([data-scheme="normal"]) .lab--classic .lab__stage { border-color: var(--line); }
+
+@media (max-width: 560px) {
+  .lab--classic .lab__stage { padding: 8px; }
+  .lab--classic .lab__panel { padding: 6px; }
+}

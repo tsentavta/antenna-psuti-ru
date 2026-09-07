@@ -1,0 +1,23 @@
+{{ define "main" }}
+<article class="page news">
+  <time class="news__date" datetime="{{ .Date.Format "2006-01-02" }}">
+    {{ .Date.Format "02.01.2006" }}
+  </time>
+  <h1 class="page__title">{{ .Title }}</h1>
+
+  {{ with .Params.cover }}
+    <img class="news__cover" src="{{ . }}" alt="">
+  {{ end }}
+
+  <div class="page__body">{{ .Content }}</div>
+
+  {{ with .Params.attachments }}
+    <h2>Файлы</h2>
+    <ul class="filelist">
+      {{ range . }}<li><a href="{{ .file }}">{{ .name }}</a></li>{{ end }}
+    </ul>
+  {{ end }}
+
+  <p><a class="more" href="{{ "novosti/" | relURL }}">← Все новости</a></p>
+</article>
+{{ end }}

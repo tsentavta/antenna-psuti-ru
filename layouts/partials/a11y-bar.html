@@ -1,0 +1,35 @@
+{{/* Панель настроек для слабовидящих. Требование ГОСТ Р 52872-2019:
+     размер шрифта, цветовые схемы, межбуквенный интервал, отключение изображений. */}}
+<div id="a11y-bar" class="a11y-bar" hidden>
+  <div class="wrap a11y-bar__inner">
+
+    <div class="a11y-group" role="group" aria-label="Размер шрифта">
+      <span class="a11y-group__label">Размер</span>
+      <button type="button" data-a11y="size" data-value="normal" aria-pressed="true">A</button>
+      <button type="button" data-a11y="size" data-value="large" aria-pressed="false">A</button>
+      <button type="button" data-a11y="size" data-value="xlarge" aria-pressed="false">A</button>
+    </div>
+
+    <div class="a11y-group" role="group" aria-label="Цветовая схема">
+      <span class="a11y-group__label">Цвета</span>
+      <button type="button" data-a11y="scheme" data-value="normal" aria-pressed="true">Обычные</button>
+      <button type="button" data-a11y="scheme" data-value="black-white" aria-pressed="false">Ч&nbsp;на&nbsp;Б</button>
+      <button type="button" data-a11y="scheme" data-value="white-black" aria-pressed="false">Б&nbsp;на&nbsp;Ч</button>
+      <button type="button" data-a11y="scheme" data-value="blue-cyan" aria-pressed="false">С&nbsp;на&nbsp;Г</button>
+    </div>
+
+    <div class="a11y-group" role="group" aria-label="Интервал между буквами">
+      <span class="a11y-group__label">Интервал</span>
+      <button type="button" data-a11y="spacing" data-value="normal" aria-pressed="true">Обычный</button>
+      <button type="button" data-a11y="spacing" data-value="wide" aria-pressed="false">Увеличенный</button>
+    </div>
+
+    <div class="a11y-group" role="group" aria-label="Изображения">
+      <span class="a11y-group__label">Картинки</span>
+      <button type="button" data-a11y="images" data-value="on" aria-pressed="true">Показывать</button>
+      <button type="button" data-a11y="images" data-value="off" aria-pressed="false">Скрыть</button>
+    </div>
+
+    <button type="button" class="a11y-reset" data-a11y-reset>Обычная версия</button>
+  </div>
+</div>
