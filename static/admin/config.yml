@@ -1,13 +1,10 @@
 # Настройки админки. Формат совместим с Decap CMS.
-#
-# ВАЖНО: замените OWNER/REPO на адрес вашего репозитория на GitHub,
-# иначе вход в админку работать не будет.
 
 backend:
   name: github
-  repo: OWNER/REPO
-  branch: main
-  site_domain: example.github.io
+  repo: tsentavta/antenna-psuti-ru
+  branch: master
+  site_domain: tsentavta.github.io
 
 # Правки сохраняются сразу в основную ветку: редактор один,
 # согласование черновиков между людьми не нужно.
@@ -17,8 +14,8 @@ media_folder: static/uploads
 public_folder: /uploads
 
 locale: ru
-site_url: /
-display_url: /
+site_url: https://tsentavta.github.io/antenna-psuti-ru/
+display_url: https://tsentavta.github.io/antenna-psuti-ru/
 
 collections:
 
