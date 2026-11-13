@@ -129,15 +129,15 @@ p { margin: 0; }
 /* первый экран */
 
 .hero { position: relative; min-height: max(760px, 100svh); display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; }
-.hero__field { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
+.hero__field { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; }
 /* затемнение под текстом, чтобы точки не мешали читать заголовок */
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background:
-    linear-gradient(90deg, var(--abyss) 0%, rgba(1,38,36,.82) 34%, rgba(1,38,36,0) 62%),
+    linear-gradient(90deg, var(--abyss) 0%, rgba(1,38,36,.9) 30%, rgba(1,38,36,0) 64%),
     linear-gradient(0deg, var(--abyss) 4%, rgba(1,38,36,.85) 14%, rgba(1,38,36,0) 34%);
 }
-.hero__inner { width: 100%; padding-top: 176px; padding-bottom: 56px; }
+.hero__inner { width: 100%; padding-top: 176px; padding-bottom: 120px; }
 .hero__copy { max-width: 960px; }
 .hero__title {
   margin: 28px 0 24px; font-size: clamp(2.1rem, .6rem + 6vw, 6rem); line-height: 1; letter-spacing: -.04em;
@@ -146,16 +146,6 @@ p { margin: 0; }
 .hero__lead { max-width: 560px; font-size: clamp(16px, 1.2vw + 10px, 20px); line-height: 1.4; color: var(--silver); }
 .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 36px; }
 
-/* приборная строка: параметры решётки, которую видно на фоне */
-.readout {
-  display: flex; flex-wrap: wrap; gap: 0; margin-top: 64px; border-top: 1px solid var(--line);
-  font-variant-numeric: tabular-nums;
-}
-.readout__cell { padding: 16px 32px 0 0; margin-right: 32px; border-right: 1px solid var(--line); min-width: 120px; }
-.readout__cell:last-child { border-right: 0; }
-.readout dt { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--slate); }
-.readout dd { margin: 6px 0 0; font-size: 20px; font-weight: 500; letter-spacing: -.01em; color: var(--mist); }
-.readout dd small { font-size: 12px; color: var(--silver); font-weight: 400; margin-left: 4px; }
 
 /* секции */
 
@@ -287,8 +277,6 @@ p { margin: 0; }
   .tool--search { display: none; }
   .hero::before { background: none; }
   .hero__inner { padding-top: 400px; padding-bottom: 48px; }
-  .readout { margin-top: 56px; }
-  .readout__cell { min-width: 0; flex: 1 1 40%; margin-right: 0; padding-right: 12px; border-right: 0; padding-bottom: 12px; }
   .labs { grid-template-columns: 1fr; }
   .row a { grid-template-columns: minmax(0, 1fr) auto; padding: 28px 0; }
   .row a:hover { padding-left: 16px; }
@@ -373,14 +361,6 @@ p { margin: 0; }
         </a>
       </div>
     </div>
-
-    <dl class="readout" aria-label="Параметры модели на фоне: фазированная антенная решётка">
-      <div class="readout__cell"><dt>Решётка</dt><dd>4<small>излучателя</small></dd></div>
-      <div class="readout__cell"><dt>Частота</dt><dd>10<small>ГГц</small></dd></div>
-      <div class="readout__cell"><dt>Шаг</dt><dd>λ/2<small>15 мм</small></dd></div>
-      <div class="readout__cell"><dt>Сдвиг фазы</dt><dd><span id="ro-phi">0</span>°</dd></div>
-      <div class="readout__cell"><dt>Угол луча</dt><dd><span id="ro-theta">0</span>°</dd></div>
-    </dl>
   </div>
 </section>
 
@@ -602,12 +582,11 @@ p { margin: 0; }
 
 /* Фон первого экрана: поле фазированной решётки.
    Четыре излучателя с шагом λ/2. Фазовый сдвиг между соседними медленно
-   меняется, и луч качается: sin θ = Δφ / (k·d) = Δφ / π.
+   меняется, и луч качается из стороны в сторону.
    Точки сетки светятся по мгновенному значению суммарного поля. */
 (function () {
   var cvs = document.getElementById("field"), ctx = cvs.getContext("2d");
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var roPhi = document.getElementById("ro-phi"), roTh = document.getElementById("ro-theta");
   var narrow, W, H, dpr, step, lam, src, axis, normal, center, pts = [], running = true, t0 = performance.now();
   var N = 4, LEVELS = 9;
   var colors = [];
@@ -655,7 +634,6 @@ p { margin: 0; }
     var t = (now - t0) / 1000;
     var k = 2 * Math.PI / lam, w = 2 * Math.PI * .55;
     var phi = Math.PI * .72 * Math.sin(t * .22);            // сдвиг фазы соседних элементов
-    var theta = Math.asin(phi / Math.PI) * 180 / Math.PI;    // угол луча от нормали
     ctx.clearRect(0, 0, W, H);
     var buckets = []; for (var i = 0; i < LEVELS; i++) buckets.push([]);
     var dim = [];
@@ -679,11 +657,6 @@ p { margin: 0; }
     // излучатели
     ctx.strokeStyle = "rgba(237,255,254,.9)"; ctx.fillStyle = "#012624"; ctx.lineWidth = 1.2;
     src.forEach(function (s) { ctx.beginPath(); ctx.arc(s[0], s[1], 4.5, 0, 6.2832); ctx.fill(); ctx.stroke(); });
-    if (roPhi && (!frame.last || now - frame.last > 120)) {
-      frame.last = now;
-      roPhi.textContent = (phi * 180 / Math.PI).toFixed(0).replace("-", "−");
-      roTh.textContent = theta.toFixed(0).replace("-", "−");
-    }
     if (running && !reduce) requestAnimationFrame(frame);
   }
 
