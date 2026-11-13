@@ -184,8 +184,7 @@ p { margin: 0; }
 .row a:hover .arrow { background: var(--kelp-hi); transform: translate(2px, -2px); }
 .row__n { font-size: 12px; letter-spacing: .12em; color: var(--slate); padding-top: 10px; font-variant-numeric: tabular-nums; }
 .row__title { font-size: clamp(24px, 1.2vw + 18px, 36px); line-height: 1.1; letter-spacing: -.02em; color: var(--white); font-weight: 500; }
-.row__sub { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--silver); }
-.row__sub span + span::before { content: "·"; margin-right: 18px; color: var(--slate); }
+.row__sub { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 24px; font-size: 14px; color: var(--silver); }
 
 .schema { position: sticky; top: 32px; aspect-ratio: 1 / 1.08; border-radius: var(--r-card); background: var(--deep); overflow: hidden; }
 .schema svg { width: 100%; height: 100%; }
@@ -284,7 +283,6 @@ p { margin: 0; }
   .eyebrow__short { display: inline; }
   .hero { min-height: 0; }
   .row__sub { gap: 4px 14px; }
-  .row__sub span + span::before { display: none; }
   .brand__dept { font-size: 13px; }
   .tool--search { display: none; }
   .hero::before { background: none; }
