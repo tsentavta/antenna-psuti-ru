@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ $cfg := partialCached "site-settings.html" site }}
 {{/* Старые адреса вида /?page=<алиас> переводим на новые. На Apache то же самое
      делает .htaccess настоящим 301; здесь — чтобы работало на любом хостинге. */}}
 <script>
@@ -12,8 +13,8 @@
 <div class="home">
 
   <section class="hero">
-    <h1 class="hero__title">{{ .Site.Params.department }}</h1>
-    <p class="hero__lead">{{ .Site.Params.university }}</p>
+    <h1 class="hero__title">{{ $cfg.department }}</h1>
+    <p class="hero__lead">{{ $cfg.university }}</p>
     {{ if and .Content (not .Params.emptyPage) }}
       <div class="hero__body">{{ .Content }}</div>
     {{ end }}
@@ -78,8 +79,8 @@
 
       <h2 class="side__title">Контакты</h2>
       <p class="side__contacts">
-        {{ .Site.Params.address }}<br>
-        <a href="tel:{{ .Site.Params.phoneLink }}">{{ .Site.Params.phone }}</a>
+        {{ $cfg.address }}<br>
+        <a href="tel:{{ $cfg.phoneLink }}">{{ $cfg.phone }}</a>
       </p>
       <p><a class="more" href="{{ "kontakty/" | relURL }}">Как добраться →</a></p>
     </aside>

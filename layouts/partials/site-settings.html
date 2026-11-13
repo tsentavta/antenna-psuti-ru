@@ -1,0 +1,35 @@
+{{/* Настройки сайта: значения из data/site.yml (правятся в админке,
+     «Настройки сайта») с запасным вариантом из [params] в hugo.toml.
+     Вызывать через partialCached "site-settings.html" . — результат один на сборку. */}}
+{{ $p := site.Params }}
+{{ $d := hugo.Data.site | default dict }}
+{{ $s := dict }}
+
+{{ range slice "department" "departmentShort" "university" "universityShort" "address" "phone" "universityURL" }}
+  {{ $v := index $d . }}
+  {{ if not $v }}{{ $v = index $p (lower .) }}{{ end }}
+  {{ $s = merge $s (dict . (string (or $v ""))) }}
+{{ end }}
+
+{{/* Ссылка tel: — явно заданная в site.yml, иначе выводится из телефона
+     (цифры и ведущий «+»), иначе phoneLink из hugo.toml. */}}
+{{ $link := index $d "phoneLink" }}
+{{ if not $link }}
+  {{ with index $d "phone" }}
+    {{ $link = replaceRE `[^\d+]` "" (string .) }}
+  {{ else }}
+    {{ $link = index $p "phonelink" }}
+  {{ end }}
+{{ end }}
+{{ $s = merge $s (dict "phoneLink" (string (or $link ""))) }}
+
+{{/* false — допустимое значение, поэтому проверяем наличие ключа, а не истинность. */}}
+{{ $notice := false }}
+{{ if isset $d "showRestoreNotice" }}
+  {{ $notice = index $d "showRestoreNotice" }}
+{{ else if isset $p "showrestorenotice" }}
+  {{ $notice = index $p "showrestorenotice" }}
+{{ end }}
+{{ $s = merge $s (dict "showRestoreNotice" (eq (string $notice) "true")) }}
+
+{{ return $s }}

@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ $cfg := partialCached "site-settings.html" site }}
 <article class="page">
   <h1 class="page__title">{{ .Title }}</h1>
 
@@ -9,7 +10,7 @@
   {{ if .Params.emptyPage }}
     <p class="page__empty">
       Раздел готовится к публикации. Материалы будут добавлены в ближайшее время.
-      По вопросам обращайтесь на кафедру: <a href="tel:{{ .Site.Params.phoneLink }}">{{ .Site.Params.phone }}</a>.
+      По вопросам обращайтесь на кафедру: <a href="tel:{{ $cfg.phoneLink }}">{{ $cfg.phone }}</a>.
     </p>
   {{ else }}
     <div class="page__body">{{ .Content }}</div>

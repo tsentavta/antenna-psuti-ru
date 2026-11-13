@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+{{- $cfg := partialCached "site-settings.html" site -}}
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ if .IsHome }}{{ .Site.Title }} — {{ .Site.Params.universityShort }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
-<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.department }}, {{ .Site.Params.university }}{{ end }}">
+<title>{{ if .IsHome }}{{ .Site.Title }} — {{ $cfg.universityShort }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ $cfg.department }}, {{ $cfg.university }}{{ end }}">
 <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
@@ -51,13 +52,13 @@
       <img class="brand__logo brand__logo--res" src="{{ "img/logo-res.png" | relURL }}"
            alt="" width="332" height="311">
       <img class="brand__logo brand__logo--psuti" src="{{ "img/logo-psuti.png" | relURL }}"
-           alt="{{ .Site.Params.universityShort }}" width="182" height="42">
+           alt="{{ $cfg.universityShort }}" width="182" height="42">
       <span class="brand__text">
         {{/* На узких экранах длинное название наезжает на кнопку меню,
              поэтому там показываем сокращённое (скрытое display:none
              не попадает в дерево доступности — дублирования не будет). */}}
-        <span class="brand__dept">{{ .Site.Params.department }}</span>
-        <span class="brand__dept brand__dept--short">{{ .Site.Params.departmentShort }}</span>
+        <span class="brand__dept">{{ $cfg.department }}</span>
+        <span class="brand__dept brand__dept--short">{{ $cfg.departmentShort }}</span>
       </span>
     </a>
 
@@ -117,18 +118,25 @@
 {{ if not .IsHome }}{{ partial "breadcrumbs.html" . }}{{ end }}
 
 <main id="main" class="wrap site-main">
+  {{ if $cfg.showRestoreNotice }}
+    <p class="notice" role="note">
+      Сайт кафедры восстановлен и переведён на новую платформу. Наполнение
+      разделов продолжается; если вы не нашли нужный материал, обратитесь на кафедру:
+      <a href="tel:{{ $cfg.phoneLink }}">{{ $cfg.phone }}</a>.
+    </p>
+  {{ end }}
   {{ block "main" . }}{{ end }}
 </main>
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
     <div class="footer-block">
-      <p class="footer-dept">{{ .Site.Params.department }}</p>
-      <p>{{ .Site.Params.university }}</p>
+      <p class="footer-dept">{{ $cfg.department }}</p>
+      <p>{{ $cfg.university }}</p>
     </div>
     <div class="footer-block">
-      <p>{{ .Site.Params.address }}</p>
-      <p><a href="tel:{{ .Site.Params.phoneLink }}">{{ .Site.Params.phone }}</a></p>
+      <p>{{ $cfg.address }}</p>
+      <p><a href="tel:{{ $cfg.phoneLink }}">{{ $cfg.phone }}</a></p>
     </div>
     <div class="footer-block">
       <ul class="footer-links">

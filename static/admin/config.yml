@@ -80,5 +80,5 @@ collections:
           - { name: department, label: Название кафедры, widget: string }
           - { name: university, label: Название университета, widget: string }
           - { name: address, label: Адрес, widget: string }
-          - { name: phone, label: Телефон, widget: string }
+          - { name: phone, label: Телефон, widget: string, hint: "Ссылка для звонка (tel:) собирается из цифр автоматически" }
           - { name: showRestoreNotice, label: Показывать плашку о восстановлении, widget: boolean, default: true }
