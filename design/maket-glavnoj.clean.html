@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кафедра РЭС – макет главной</title>
+<!--
+  Макет главной страницы в тёмной «глубоководной» стилистике.
+  Самодостаточный файл: логотипы встроены, шрифт Inter в макете берётся
+  с Google Fonts. В рабочей версии он будет лежать в static/fonts,
+  как сейчас IBM Plex Sans.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* поверхности: глубина задаётся шагом цвета, не тенью */
+  --abyss: #012624;
+  --deep:  #011d1c;
+  --kelp:  #003734;
+  --kelp-hi: #04433f;
+  --line:  rgba(237, 255, 254, .09);
+  /* текст */
+  --white: #ffffff;
+  --mist:  #edfffe;
+  --silver:#bbc7c6;
+  --ash:   #f2f2f2;
+  --slate: #707777;
+  /* акцент */
+  --phosphor: #fde9ff;
+  --aurora: linear-gradient(90deg, #cbfffc 0%, #edfffe 26%, #fffdfa 48%, #fad1ff 89%);
+  --bio: linear-gradient(90deg, #00827c 0%, #cbfffc 100%);
+  --icon-bg: rgba(3, 81, 75, .5);
+
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --wrap: 1440px;
+  --gutter: clamp(16px, 4vw, 56px);
+  --r-card: 16px;
+  --r-sm: 6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--abyss); color: var(--silver);
+  font-family: var(--font); font-size: 16px; line-height: 1.5; font-weight: 400;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+img { display: block; max-width: 100%; }
+h1, h2, h3 { color: var(--white); font-weight: 500; margin: 0; }
+p { margin: 0; }
+:focus-visible { outline: 2px solid #cbfffc; outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* общие элементы */
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--silver);
+}
+.eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #cbfffc; box-shadow: none; }
+.eyebrow--plain::before { display: none; }
+.eyebrow__short { display: none; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 26px;
+  border-radius: var(--r-sm); font: 500 13px/1 var(--font); letter-spacing: .1em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; border: 0; white-space: nowrap;
+}
+.btn--aurora { background: var(--aurora); color: #102220; background-size: 140% 100%; background-position: 0 0; transition: background-position .5s ease; }
+.btn--aurora:hover { background-position: 100% 0; }
+.btn--ghost { background: transparent; color: var(--white); padding: 0 4px; }
+.btn--ghost:hover .arrow { background: var(--kelp-hi); }
+
+.arrow {
+  flex: none; display: inline-grid; place-items: center; width: 32px; height: 32px;
+  border-radius: var(--r-sm); background: var(--icon-bg); color: var(--white);
+  transition: background-color .2s, transform .2s;
+}
+.arrow svg { width: 14px; height: 14px; }
+.btn--aurora .arrow { background: rgba(1, 38, 36, .1); color: #102220; width: 24px; height: 24px; }
+
+/* шапка */
+
+.notice {
+  background: var(--deep); border-bottom: 1px solid var(--line);
+  font-size: 13px; color: var(--silver);
+}
+.notice .wrap { display: flex; align-items: center; gap: 12px; min-height: 40px; padding-top: 8px; padding-bottom: 8px; }
+.notice__dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: #cbfffc; animation: blink 2.4s ease-in-out infinite; }
+.notice a { color: var(--mist); text-underline-offset: 3px; text-decoration-color: rgba(237,255,254,.35); }
+@keyframes blink { 50% { opacity: .25; } }
+
+.site-header { position: absolute; z-index: 10; left: 0; right: 0; }
+.header-top { display: flex; align-items: center; gap: 24px; min-height: 84px; }
+
+.brand { display: flex; align-items: center; gap: 16px; text-decoration: none; min-width: 0; }
+.brand__res { width: 44px; height: 44px; border-radius: var(--r-sm); }
+.brand__psuti { height: 44px; padding: 9px 12px; background: var(--mist); border-radius: var(--r-sm); }
+.brand__psuti img { height: 26px; width: auto; }
+.brand__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.brand__dept { color: var(--white); font-weight: 500; font-size: 15px; letter-spacing: -.01em; line-height: 1.2; }
+.brand__univ { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--silver); }
+
+.tools { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.tool {
+  display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 14px;
+  background: var(--icon-bg); color: var(--mist); border: 0; border-radius: var(--r-sm);
+  font: 500 12px/1 var(--font); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; text-decoration: none;
+}
+.tool:hover { background: var(--kelp-hi); }
+.tool svg { width: 16px; height: 16px; flex: none; }
+.tool--icon { width: 40px; padding: 0; justify-content: center; }
+.menu-toggle { display: none; }
+
+.nav { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: 16px; }
+.nav a {
+  display: block; padding: 15px 0; font-size: 11.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--silver); text-decoration: none; position: relative;
+}
+.nav a:hover, .nav a[aria-current] { color: var(--white); }
+.nav a[aria-current]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--bio); }
+
+/* первый экран */
+
+.hero { position: relative; min-height: max(760px, 100svh); display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; }
+.hero__field { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
+/* затемнение под текстом, чтобы точки не мешали читать заголовок */
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--abyss) 0%, rgba(1,38,36,.82) 34%, rgba(1,38,36,0) 62%),
+    linear-gradient(0deg, var(--abyss) 4%, rgba(1,38,36,.85) 14%, rgba(1,38,36,0) 34%);
+}
+.hero__inner { width: 100%; padding-top: 176px; padding-bottom: 56px; }
+.hero__copy { max-width: 960px; }
+.hero__title {
+  margin: 28px 0 24px; font-size: clamp(2.1rem, .6rem + 6vw, 6rem); line-height: 1; letter-spacing: -.04em;
+  overflow-wrap: break-word;
+}
+.hero__lead { max-width: 560px; font-size: clamp(16px, 1.2vw + 10px, 20px); line-height: 1.4; color: var(--silver); }
+.hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 36px; }
+
+/* приборная строка: параметры решётки, которую видно на фоне */
+.readout {
+  display: flex; flex-wrap: wrap; gap: 0; margin-top: 64px; border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.readout__cell { padding: 16px 32px 0 0; margin-right: 32px; border-right: 1px solid var(--line); min-width: 120px; }
+.readout__cell:last-child { border-right: 0; }
+.readout dt { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--slate); }
+.readout dd { margin: 6px 0 0; font-size: 20px; font-weight: 500; letter-spacing: -.01em; color: var(--mist); }
+.readout dd small { font-size: 12px; color: var(--silver); font-weight: 400; margin-left: 4px; }
+
+/* секции */
+
+.section { padding: clamp(80px, 9vw, 136px) 0; }
+.section__head { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; margin-bottom: 56px; }
+.section__title { font-size: clamp(2rem, 1rem + 3.2vw, 3.8rem); line-height: 1; letter-spacing: -.04em; margin-top: 20px; }
+.section__lead { max-width: 480px; justify-self: end; color: var(--silver); font-size: 16px; line-height: 1.5; }
+
+/* показатели */
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.stat { padding: 36px; border-radius: var(--r-card); background: var(--kelp); }
+.stat__num { font-size: clamp(56px, 6vw, 86px); line-height: 1; letter-spacing: -.046em; font-weight: 500; color: var(--phosphor); font-variant-numeric: tabular-nums; }
+.stat__label { margin-top: 18px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--mist); }
+.stat__text { margin-top: 8px; font-size: 14px; line-height: 1.5; color: var(--silver); max-width: 30ch; }
+
+/* разделы: строки + схема */
+.explore { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.row { border-bottom: 1px solid var(--line); }
+.row a {
+  display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 20px; align-items: start;
+  padding: 36px 24px 36px 0; text-decoration: none; border-radius: var(--r-card);
+  transition: background-color .25s, padding .25s;
+}
+.row a:hover { background: var(--kelp); padding-left: 24px; }
+.row a:hover .arrow { background: var(--kelp-hi); transform: translate(2px, -2px); }
+.row__n { font-size: 12px; letter-spacing: .12em; color: var(--slate); padding-top: 10px; font-variant-numeric: tabular-nums; }
+.row__title { font-size: clamp(24px, 1.2vw + 18px, 36px); line-height: 1.1; letter-spacing: -.02em; color: var(--white); font-weight: 500; }
+.row__sub { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--silver); }
+.row__sub span + span::before { content: "·"; margin-right: 18px; color: var(--slate); }
+
+.schema { position: sticky; top: 32px; aspect-ratio: 1 / 1.08; border-radius: var(--r-card); background: var(--deep); overflow: hidden; }
+.schema svg { width: 100%; height: 100%; }
+.schema__cap { position: absolute; left: 28px; bottom: 24px; right: 28px; display: flex; justify-content: space-between; gap: 12px;
+  font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--slate); }
+
+/* лабораторные работы */
+.labs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; list-style: none; margin: 0; padding: 0; }
+.lab a {
+  display: flex; flex-direction: column; height: 100%; min-height: 380px; padding: 28px; border-radius: var(--r-card);
+  background: var(--kelp); text-decoration: none; transition: background-color .25s;
+}
+.lab a:hover { background: var(--kelp-hi); }
+.lab a:hover .arrow { transform: translate(2px, -2px); }
+.lab__top { display: flex; justify-content: space-between; align-items: center; }
+.lab__code { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--silver); }
+.lab__glyph { margin: 36px 0 32px; height: 96px; }
+.lab__glyph svg { width: 100%; height: 100%; overflow: visible; }
+.lab__glyph * { fill: none; stroke: var(--mist); stroke-width: 1.25; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.lab__glyph .g-dim { stroke: var(--silver); opacity: .45; stroke-dasharray: 2 3; }
+.lab__glyph .g-fill { fill: rgba(203, 255, 252, .06); stroke: rgba(237, 255, 254, .25); stroke-dasharray: none; }
+.lab__glyph .g-pt { fill: var(--mist); stroke: none; }
+.lab__title { font-size: 22px; line-height: 1.2; letter-spacing: -.02em; color: var(--white); font-weight: 500; }
+.lab__meta { margin-top: 10px; font-size: 14px; line-height: 1.5; color: var(--silver); }
+.lab__foot { margin-top: auto; padding-top: 28px; display: flex; gap: 8px; flex-wrap: wrap; }
+.tag { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--mist); padding: 6px 10px; border-radius: var(--r-sm); background: rgba(1, 29, 28, .55); }
+
+/* новости и контакты */
+.split { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px; }
+.panel { border-radius: var(--r-card); padding: clamp(28px, 3vw, 48px); background: var(--kelp); }
+.panel--deep { background: var(--deep); }
+.panel__head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 28px; }
+.news { list-style: none; margin: 0; padding: 0; }
+.news li + li { border-top: 1px solid var(--line); }
+.news a { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 20px; align-items: start; padding: 22px 0; text-decoration: none; }
+.news time { font-size: 12px; letter-spacing: .12em; color: var(--slate); padding-top: 6px; font-variant-numeric: tabular-nums; }
+.news__title { font-size: 20px; line-height: 1.3; letter-spacing: -.01em; color: var(--white); font-weight: 500; }
+.news__text { margin-top: 8px; font-size: 14px; color: var(--silver); }
+.news a:hover .arrow { background: var(--kelp-hi); }
+
+.contacts dl { margin: 0; display: grid; gap: 22px; }
+.contacts dt { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--slate); }
+.contacts dd { margin: 6px 0 0; color: var(--mist); font-size: 16px; line-height: 1.45; }
+.contacts .phone { font-size: clamp(26px, 2.2vw, 34px); letter-spacing: -.02em; color: var(--white); text-decoration: none; font-weight: 500; font-variant-numeric: tabular-nums; }
+.contacts .phone:hover { color: var(--phosphor); }
+
+.more { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 14px; padding: 8px 8px 8px 20px; border-radius: var(--r-sm);
+  background: transparent; border: 1px solid var(--line); text-decoration: none; color: var(--mist);
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+}
+.chip:hover { background: var(--kelp); border-color: transparent; }
+
+/* подвал */
+
+.footer { background: var(--deep); margin-top: clamp(80px, 9vw, 136px); padding: 96px 0 0; overflow: hidden; }
+.footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
+.footer__dept { color: var(--white); font-size: 20px; font-weight: 500; letter-spacing: -.01em; line-height: 1.3; }
+.footer p, .footer li { font-size: 14px; color: var(--silver); line-height: 1.6; }
+.footer ul { list-style: none; margin: 0; padding: 0; }
+.footer a { color: var(--mist); text-decoration: none; }
+.footer a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.footer h2 { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--slate); font-weight: 500; margin-bottom: 14px; }
+.footer__mark {
+  margin: 72px 0 -0.2em; font-size: clamp(120px, 26vw, 360px); line-height: .8; letter-spacing: -.06em; font-weight: 500;
+  color: var(--kelp); white-space: nowrap; user-select: none;
+}
+.footer__mark span { background: linear-gradient(180deg, var(--kelp) 30%, var(--deep) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* адаптив */
+
+@media (max-width: 1180px) {
+  .labs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lab a { min-height: 0; }
+}
+@media (max-width: 980px) {
+  .nav { display: none; }
+  .site-header.is-open .nav { display: block; background: var(--deep); }
+  .nav ul { flex-direction: column; }
+  .nav a { padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .menu-toggle { display: inline-flex; }
+  .tool--a11y span { display: none; }
+  .tool--a11y { width: 40px; padding: 0; justify-content: center; }
+  .brand__psuti { display: none; }
+  .explore, .split, .section__head { grid-template-columns: 1fr; }
+  .section__lead { justify-self: start; }
+  .schema { position: relative; top: 0; aspect-ratio: 16 / 11; }
+  .stats { grid-template-columns: 1fr; }
+  .footer__grid { grid-template-columns: 1fr 1fr; }
+  .footer__grid > :first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  .brand__univ { display: none; }
+  .eyebrow__long { display: none; }
+  .eyebrow__short { display: inline; }
+  .hero { min-height: 0; }
+  .row__sub { gap: 4px 14px; }
+  .row__sub span + span::before { display: none; }
+  .brand__dept { font-size: 13px; }
+  .tool--search { display: none; }
+  .hero::before { background: none; }
+  .hero__inner { padding-top: 400px; padding-bottom: 48px; }
+  .readout { margin-top: 56px; }
+  .readout__cell { min-width: 0; flex: 1 1 40%; margin-right: 0; padding-right: 12px; border-right: 0; padding-bottom: 12px; }
+  .labs { grid-template-columns: 1fr; }
+  .row a { grid-template-columns: minmax(0, 1fr) auto; padding: 28px 0; }
+  .row a:hover { padding-left: 16px; }
+  .row__n { display: none; }
+  .news a { grid-template-columns: minmax(0, 1fr) auto; }
+  .news time { grid-column: 1 / -1; padding: 0; }
+  .footer__grid { grid-template-columns: 1fr; }
+  .btn--aurora { width: 100%; justify-content: space-between; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<a class="visually-hidden" href="#main">Перейти к содержанию</a>
+
+<div class="notice" role="note">
+  <div class="wrap">
+    <span class="notice__dot" aria-hidden="true"></span>
+    <p>Сайт кафедры восстановлен и переведён на новую платформу. Наполнение разделов продолжается. Если нужного материала нет, позвоните на кафедру: <a href="tel:+78463325853">+7 (846) 332-58-53</a>.</p>
+  </div>
+</div>
+
+<div style="position: relative;">
+<header class="site-header" id="header">
+  <div class="wrap header-top">
+    <a class="brand" href="#">
+      <img class="brand__res" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUwAAAE3CAIAAABO6e8KAAAEVElEQVR42u3dzVXCQBiG0RdPasqCNlIYlVADuyyoyoVbUUAzv/c24DHk4UvGTDzdLqER2746CPy7D4cARE4h1/PdQUDkOgeR6xxErnNEDogcwxyRo3NEjs4Ruc5B5DoHkYPIMcwROTpH5OgckaNzRI7OETkgcsMcRK5zRI7OETk6R+ToHJEDIscwR+Q6B5HrHJGjc0SOzhE5IHIMc0SOzhE5OkfkOkfkgMgxzBE5Okfk6ByRo3NEjs552ul2qfODt311Ktfyw8Gf8Ogddyo2YvGZTfhd43vQ5Trmg7sYkaNzRA64J59imDd7NTjzhcZUqxIidxOBy3VEhcjROSIHRG6Yg8h1DiIHRG6YI3J0jsgBkWOYI3JA5IY5iFznkN52oQ22E/BRzy1vRMUkB0SOi3ZEDojcMAeR6xxEDiLHMEfk6ByRAyLHMEfkgMgNcxC5ziFpdheasxxMckDkgMhB5IDIAZEDIgdEDogcEDnEY63xzxXiKV1MckDkgMgBkQMiB0QOIgdEDogcEDkgckDkgMiB+OcKYJIDIgdEDogcEDkgckDkIHIgHoaJVzLHsz2Y5IDIAZEDIgfS2cIbpOCCbgsLvcetzoqcoXLF5ToKFzkoXOSgcJGDwkUOChc5KFzkKJx4JTMKN8lB4SIHhYscFC5yULjIUbiDIHIUjshROCJH4SIHhYscFC5yULjIUTgiR+HE21qZkg2LJjmIHBA5IHJA5IDIAZEDIgdEDvHEWzzVCCY5IHJA5IDIAZEDIgeRAyIHRA6IHBA5IHJA5IDIQeSAyAGRAyIHRA6IHBA5iBwQOSByQOSAyAGRAyIHkQMiB0QOiBwQOSByQOSAyEHkgMgBkQMiB0QOvGOp++O3ffUZgEkOiBwQOYgcEDkgckDkgMgBkQMiB2o/1gp/dD3fx/hFjnvE2yTHtgWX66BzkYPORQ46Fzk6R+ToHJGjc0SOzkUOOhc56FzkoHORg85Fjs6JXWipvvnp63TsYkdUX+Vs+zrMPjOR972N0Ymoc5fr/eXtxHL1YZKX3vFf7JOWt3luko/8DhBnknkucjfh6FzkCkfnIlc4Os8MC2+/flruwzmi86k+8cUAF4zviG8fbXK5rnAQucJB5AoHkSscRK5wiNV1eWOSKxxErnAQucJB5AoHkSscYnU9tj2By3VA5CByQOSAyAGRAyIHRA6IHEQOiBwQOSByQOSAyAGRQ7w0ghR4yUyVl094Q45Jjq8nRA6IHOJ9fu7JQdsix6mMy3Vg4ElurRhMckDkIPJYKAKRA7HwVneYW6UDkxxEDogcEDkgckDkgMgBkUM8DEM8XYtJDogcEDkgckDkgMhB5IDIAZEDIgdEDogcEDkgchA5IHJA5EC8GSb+L3qpX8RbbkzyeGcTiFznIHKdg8h1DiLXOYj8lc6ljsiNdBC5zkHkOgeR6xxEbikORG6kg8h1jsjROSLXOYhc5yBynYPI/WkNRA685hNy5jtPUAQAiQAAAABJRU5ErkJggg==" alt="" width="44" height="44">
+      <span class="brand__psuti"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAa0AAABqCAYAAAAPzA6PAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACAASURBVHic7Z13nFxlufi/7znTZ9tsr+nZNBJSCCT0cqmCFwRsiAqS3QSUq171ehU13vu7KnZRkuyGJlKUoihNpYTeQhISkpBkU7f3vlPPnPf3x26y2TYzO7Ml4Pv9fPh8yMxbnjmzc57zPO9TBB8ism/amGMTci46xUiKJXIOQmQgcYNMBi0VpBuwAp1IOoWgR0K3RLQK5GGk2CtEeI+m2fZVNicd4dFPhif7cykUCoUiNsRkCzAyUhSuuWshpjxPSs5HcBbgGeNNAsBmAS9i8qLD4X9r/29vDYzxHgqFQqEYI04opTXrK3fY/UHnxyTyUwjOQ5I1wSL4QLwhJX8R1sAfa+78cssE769QKBSKCJwQSitvzcZlQvJ5gfzMJCiqkQgj2IQUf5DSfKy2vNQ72QIpFArFvzqTprQWXPuIrS2j/XNCym+BmJPIWhnJDmblpJHncZPktJHisuG223DZLYRNSY8/RE8whNcfoqXLT1VzJwcbO/AGjFi3aAXWSSl/U1te2pyIrAqFQqGInwlXWn0uwC9IzNtAFI12fp7HzenF+Zw+N5+5BelMz0ohxWmLS5a6Di+HmzrZVd3Cq7ureWtvHT2BUKQpPVKIu4XBz2ruWlUd16YKhUKhiJuJU1rXPqIXprffLOE2IDvWabomOGNOPh9bNoMz5uQzLStlwPuGKant8HK4tYuadi9+I4w3aNAdMPCFDCyahtOq47DqpDhsuG0WpnjcTE1PIivJMWCtsCl5v7qF1/bU8vhb+6iobRtJrICQbNR04/uV628ecZBCoVAoxpYJUVp5azYu00y5Djg11jnF+R6uXVHMJ06bRU6q69jrNR1etlQ2s6WqhQ8a2qnt8GKYMi65XDYLUz1uFuanc8qUDJYUZpBstx57f2dNK39+Zz+Pv76Plm7fcEu0Cvif6rza37J2rRmXEAqFQqGImXFVWlPWrPMY0rpWSPllQItlzjnzC7n1siWcNisXAAm8X9vK33fX8MbhRuo7h1UeY4ImBHOyUzhnVi6XzCskN8UJQChs8rdth/j1U1s4VN8xZJ5EvKub8uaqjSWbx004hUKhUIyf0sovKbtICPEHYnAFakJw8eKp3HrZEhYWZQJQ3+njqV1VPPtBNTXtiQfu2S06ASP2PGJNCE4uSOdjCwq5oDgfp1XHlJK/v1/Fr5/awu7KIfEYhpDye9XlJbeDiM/0UygUCkVExl5pXfuIXpjR9j0pxfeIwbpaUJTBjz97Jkun9+q2mnYvf3h3P0/urCIco9tPAPkeN1PTk8lNc5Ob6iIn1YXbpmPTdZxW/dhYv2ESMMJ4Q2Eau3w0dHipb+umqrWbI63dSDl0zzSnjWsWT+NTS6aT7LAigSe3Heb7D71Gc9dgy0+8YNWDnzu87pb6mIRXKBQKRcyMqdIquGljodDlQxLOijY2xWXjWx9fzvVnz0PXBAeau7jrzX28vL8ecxjFMWS+w8aSqZnML0inOCeNJJvl2HuGlDT5gnQFDQKmJBg28YdNbLrArunYdUGS1UKW04pN69er/lCYiuZOdtW08t7hJlp6/AP2TLJbuGbxdD53ykyS7BbafUF++uQW/rBpJ4NEbpCI62vLVj0X9YMoFAqFImbGTGn1BVs8QwzuwAsWTuEXnz+bzGQn3qDBxjf38ci2Q1EtK6uusXhKJitn57EgNw1NCMKm5Ei3n4oOL4c6fTT4ArQEjGEtpsEIwOOwku2wMS3FwexUN9NTHFiFhimhormTNypq2Xq4CX+o37WY4bZz69nzuWheAQLYVtXMLRtfoLKx8/jlw0KwpnpDycaogigUCoUiJsZEaRWUlJ0nhHhCQkqkcRZd49tXLqf03xYhBLywr45fv7SLpm5/pGk4rDrnzingwpOKSLFbMaRkZ2s3mxs72NveQyA8dkdIVqExM83JqVkpnJyZgk0T+EJhNu2t5bldlXT7+/O4lhZl8M3zT2J6RjKd/iDffOh1nn5n/4D1JNxeW1by7TETUKFQKP6FSVhpFa4uv0pKHgIcEcelJ7Fu1QUsnZ6NL2Rw+/Pv8/cPaiKubdV1Ll5YxIXzinDZdJr9ITbVtLKluZOe0PgXZ7frgsWZKZyfn06+204wbPJSRR1PbTuIL9i7v82i8bVzF3DVoqlI4A9v7GXtw68RDA2IgF9Xk1f7FRUWr1AoFImRkNIqWF1WihTriBJwMbcgnQdvvZScVBeHWrr47lNbOdjSFXHtkwsz+PSKYjLdduq9AZ6rbuXdps6YzruOIoBUm5VMpw2P3YJd17HrGlZd6w3GMML4DZNmf5AmX4DgCO5JASxIT+LiokymJTvoDIR4bMsh3qqo5eiMc2fn8t2LTibZbmXz4SY+f8czdHmDx60i/1TT6rlOtUJRKBSK+IlbaeWvLv+0kDxIFIV1xpx87l5zEUkOK8/urubHz+8gaIxscCQ5rHz+jLksKczAa5g8ebiRNxraiSWQUACFSQ5mpbqZ7UmiyO3AqvV+RFNCyJQEJZiAVYBVCKzHSd8WNDjY6aOirZuK9m56hgmRX5aVwlXTs0m1Wdjb1Mk9L++mtS9gozDNzS+uWs5UTxJ76tu57jfP0NDWc/z0+2vKVn1RhcQrFApFfMSltApWbzwfKZ8B7JHGfWzpdH5743nYLDoPvnuA373yAZHu1rOzU1l17gI8ThtvN3bwxKFGumNwA6bbrSzLTmVpdhoemwW/Kanzh6n1G7SGTNpDJt1hc9i9rQJSrTppFo1su0aBw0KmTUdKSUWXn3frW9nd1j0gSMSpa1w2JZOz89PxhcLc+8YHbD/Sm7eV5rTxiytPZUFeGlVtPXz2jmc4VNfev6EU/1dTvuq2qB9KoVAoFEMYtdIqWlW+3NR4EUiKNO7CRVPYuPpCdE1j3asf8IfNByKue8nCqVy1ZBrBsOTB/XW81xzZfQiQ47RzflEGC9OTCZmw3xtib0+IhkA4onKMhkMTzHRZmJNkI8eu0xkK81JNC5vr2zFkv5VYnObmC3PySLZaeG5vDY+/vR9TSpxWnf+7fBmnT8+mscvHv//0b1Q1HRdZKOTXazaU/ioBERUKheJfklEprfyb7ykSprElWs+r02bn8eCtl2K36tz+/A6e2FE5sgBCcN2KYs4pzqOy28e9e2pp9kestI7bqnPZ1ByWZqbQFTbZ1hHgg26D4W2pxPBYNZam2JjtttJtmDx1qIEdLf0KKMVq4Qtz8ihOc7O1ppWNL+7EME0smuD/Ll/GObNyOdDUyZU//Rtt/YnIptS4qnZ9yd/GXGCFQqH4CKNHH9LH2rWWlE73k8C8SMPmFqTz0K2XkuSwsuG1Pfxp66ERx1p0jVVnz+f0mTnsbO1mw64auqK4A0/JTuWL84rIctp5tc3PS61+GoPxqStBdK3tNyWHfAZ7e0Jk2HTOyU1jeqqbgx1e/GGTgGmyuamLVLuFU/M8FBeks+1II0HD5OX99SzM93BSvoezTyriL29XEOo9zxNCcqlryccf6dn6ZHsUERQKhULRR8yWVmFJ+e1S8K1IYzKTnfzjtk+Qk+riT1sP8auXdo04VtMEt1ywiEX5Ht5u7OChisiVMOy6xidm5rIoI4Xd3SHeavfHnJ9l12Cqw0KhUyfVopOka9h00Ps+fhhJ0JR0G5K2kElNwKDSZxAYJl6kyGnhnHQnViF59EAdu/uiIAVwxbRsLixM51BbD794ZgsBwyTJbmH9J09ndlYK/9xdzY13PNu/mGBzWkvambse/WRw6E4KhUKhGExMllbhqvJLpcbviKDkNCEoL/03FhRlsKmijh89t2NE60cAXzxzHqdMyeT1+nYerqiPaCllOKyUnjSNAreT51p8vNcZJJq+EsBst4UzPHbOSHeQY+8teNtpmDT4w9T6DKp8IWp9Bg3+MJ0hkzCSZF1jttvGslQ7+XYLkl5FdpROwzxmdZ2bm4bVorO/vTdCcG97DxLJqblpTM1JZfPBBgKGyasH6rlobgELC9LpCZts2X+sLGGB3+l3d2158p+RP41CoVAoIAZLK/eGe7J0m7EbyIw07qsfW8o3rlhGTbuXLzz4Ct0RWtlfs3wmF88v4r3mLu7ZWxux5FKe28GX5hURBJ5u9NJlRLeu5iVZWZJiw6ZBvT9Mvd/AP8qqGS5dI9uhk++w4AtLtnUG2NtjDFCuJ6fYOd1jZ2tLF49V9H+Oa2fmcHaeh7cqm7ln004ksKQwnd9ds5KwlFzzq6fZ2q+4pCa4tGpDyT9GJeA4UlBSvgHBnMmWYwzZXlNW8tV4JxeUlj9JlMCjEwFNypuqyktHjHjKLym7SGjim4nsISRvVJeV/CCRNUaiaFX5clPnR4msIaTcW11W+uVIY/JXb9wopJyZyD6TiZTi8dryVXfGMrZgdVkpiGvi24eG2rKSz8UzNyJr12oFdXl3IUbfuR7AEm2AbjN+ShSFddrsPL72saUEwybfeWpLRIW1fHoOF88vYl+Hl99HUVj5bgclC6bQYUieavQSiJKs5bEKzk13kmbVONwTosEfjjs4wxs2OdxjUuk1yHPonO5xMNcd5uW2wDHLa3tnAK9hcn5WEna9kIf2VGFKePxgA26LzoopmRxZNJXndxxhW3UrG9/cy+oz5rLupvO56H8eo7M3+ViYkjunffHekw7fd0PkelYThBCcImHZZMsxVojRnN0OP//saCXKTgRMISMqVk+b56X29PbfAbPj3UPCOTk3bbyv4a5VIx9Wx4mpi1uQ8t8SWkOIh6ONEaY8FcGiRPaZVDTeH8Xg2fFeUyE5Es+8aOTX5X8duCHeuLmIicH5JWVnAl+INMZm0fnp585C1wR3vLybvY1DmyQeJTvZyfUri2kPhLhnTw1GBIWV4bBy47wi2gzJ3xp6oiqs+W4rn8hJImhK3mn1Uecfm2hCU0pqfAabW/2YwFU5Lua5+3V9hTfE3xt9zE91c+XM/L458OC+emq6/Vxz8jRm5qQCcP87B3j7SBOFaW7++5qVx28z03AEVX1Cxbiy69FPBgUi0b8zq0WXEc+242FGSVkqUl6b4DLVnpa0B8ZEIMW4kHfzxnkC/ieRNUZWWmvXWoQQEc+xANZctIiZOalsr2nl8fcOjzjOomusPv8k7BaNe/fVRqwd6LRofGn+VAISnmnyEoqie87wOFiRbmdPV4AD3dHPu47i0DXyHFamuu0UpziYmWynwGkjzTrUAA1Jyb6uIBXdIU73OFmZZjv23hGfwaZWP8uzUji3MLtvvMl9+2oxJJSccxJOW++Z2o/+uQNfKMx1K2ezZGbOsTWkFN/OX3P3R8klpzgBqS5b9WeJeCXBZW4oXL2+YEwE6sOP9jnAldAiQv5SBTWdwKxda9FM+XvAmcgyIyqtgrr8W4GTI00uTE/ilksWEzYlP39xZ0S75sL5hRSluXmmspmDHYMbJ/YjgGtn5eO06Dzd5IsaIXhuuoPZbp3tbQFagtGrZ1iFoDjFwcoMN6d4XOS7bHisOnahkaRbyHVYmZPq4MysJBamOkm2DrxETQGD7R0+5ibZONvjOKbR93YH2dIR4KJCD9NSe3979d4gjx6sJ91p5cpTez0yDV0+7nu7Ak0IfvK5s9DEsWcCu5BhlXCsGH+E+Cq91czixS6l9o2xEgdACPNLCS7RGtQM1QboBKawPu82JMsTXWdYpZVz/f1uBFHdCD/81Om4bBb+uPUgFU2dI47LcDu4/ORp1HsDPF/TGnHN0/M8zPMk8XyLj+4INQoBVqbZmerSea8tQE84ym9Qg1nJDlZkunHpGk0Bk2pfmJaASXtI0mVIOkImLUGTBl+Yam+YMIJFqS5OTnPh0PsNzm5Dsr09wCy3hVPT+itZbe4IUBsIc11xAQ5L76V9u6GDfe09nDsjl+nZvW7Ch7Yc5HBrNwvyPFx33oJ+GSWX9rlkFYpxo3bDTdsQ4g+JrSJKclavj9o7LxYKV991KoglCUkj5G+b1t3SPRbyKMae/NV3LZFSfGcs1hpWaVlc/tJoVS9OKsrgokVTaekJcNebFRE3+fSK2Vh1jT/ur4/Y6DHNZuXiKdls7wxQ5Rs5mANgtsvC/CQb77cH8UdrHilgeZqbNItOjS9Me1ASQxAiXkNS4wsTloJT0t1k2Kz974VN3u8IsDDZxkxnrztRSni+2YdN07h8ev6xsY8caMCUks+unIMAQmGTX23qzWG75aJFWLX+OAGhjc0Xq1BEQmB8F+iJOnBkXDqWr42FLCZyVYJLeI2ANaZoOsXEM+srd9iFDN8PWKMOjoEhSmvWV+6wA1+PNvErly5BCHh4y0F8oZEVzLTMZBYXZrC5sYMDnSO7BQGumJ5DwJRsbg9EHJeka5yV7mBfVxBvFAvLqWucmpGELwzNQTOmavGD6TZMGnwmc1PsFDj6z7K6DJP93UHOSreT1GeJecOSt9oDLMtMYmpKr+u2wRfkpdo2pqW5WDyj9+H07SNN7KhtpTDNzdVnHXeUJbm0qHTDKaOXUqGIneoNa2qEkD9PZA1NypunrFnnSWSNrJvvTBJSfiqRNUCW1997Y1NiayjGC1/Q8SMQJ43VekOUli9gvxGIeMg6KzeNS5dMo9Mf4s87IkdFXrF4OlJK/lHVEnHctBQnC9KTeK3NHzXw4pwMOy3BME3ByNaYjsZij5PWoBnV1RiNkOytHD8tyYbH1m8Z1fsNug3JWZ5+N+HuriBNwTCXT8s79trzNS34wyYfP3nasXOw3/d1Ob7lokXHn21hIv47IWEVilhw9twOsire6RJSjLD11kREsIdtnwWSE1giZFr0Xycig2L8yF991xnAf4zlmoOUlhQI8Z/RJt188cloQvCnrYfwRlAcRZ4kFhaks6W5i0Zf5KCeCwoyaQqGOeyNrIimOC3k2HUOdkcuqguwMM2B1wBfDOGEAihyWVie4eDMbCdL0h1k2gem95gSGgImC1Kdx/p0AVR0BylwWily9I6XwDvtAYrcNmamuQHoCYV5vb6NwhQXC6b0el7fONjI3sYOpmckc/lpx+c6iqsKVpUXRxVaoUiA6l993Yfke4msIYS8NfPGu+NWOiYk6hp8sO7Om8Yln0iRGDnX3+8WpnkfCeZJDmaA0ipctfFsIGKmeJLDyuVLZxAMmzz6XuT8wgsW9CY8/7M6spWV73YwO83Nlo5A1Myq5ak2qrwGoSgdjNNtFly6RkcouoXlsmhcnO/mrBwXs1NsTHFbmZdq46J8N6dnOTkuBgPDlHQETWYnOY69FjAltf4QS1P6XYeVPoPGYJgLivqPBl+sbiMkTS48qRDoVW4PvXsQgE+dPvd4kQQa10cVXKFIkJr8uj9IxLsJLJHusIZvjmdi4ZqNiwQyEVe41E0ScnEqxg/d5f8Vglljva426F9Rb5QfWzodl93Cqwca6IzQQsSq6yydksmhTh91PZHPqE7NTqPDMDkUxcrKsWmkWXTqorQuAZidbKclGF1hWYTgvFwX6fbhHwamJVlZkTkwraDLkHhsOk69f0611yDLbiHH1n9Jt3cEmZ7kwGPvPX/sDBm839zN3MxU0ly97sRN++voCoQ4c1Yu2X1WGQCS61m7NmLyt0KRMGvXmpjyPyD+THwJX88vKRt1jpWUrI53z759n6jcWDJyVW7FpJFfuvFCATeNx9rHboqFX/ulU8LV0SZcs6LXa/Xs7uqI45ZOzcRp1XknQoUM6FUai7JS2NcdivqrmZ9soylgEO14ymXR0YSIWkUDYHaKlVRrZN0wNclKlmOgUusMmRS5+pOQg6akNWgw190fIHPQZxAyJctz04+9trmpA03Ayjm90YVBw+Slinp0TXD1GccFZAimFtbknxX1AygUCVK7seQNkH9JYIlsTYhRufkKv/ZLJ1J+JoE9EZg/S2S+YnyY9sV70wTyHuJoMhwL/XfrHvdVQFqkwQXpSZw2O5dWb4A3DzdGXHjlrFxC0mRr88j5W9Db/depa+zriXzmJehtL9IYiJ5AXOCw4o0WzdFHkTu2KMwi18Bx3rAkwzawckaDP0yRy3LsmwpLyQGvwaLMfpf/7jYvXSGDU6f1p7g80/cAcNUpMwZu+uF0EUogPA7/jX2Hz4nBZHyux5D/hKbHfY10zfpNILJLJAIS/mvaF+91RB/Zi+lN/jRR7jdR2FRTtvrNuGYKDBK71olFdSX6PZsy+k1wEjHsoXVA4Xitf+yuawpxTTS1eN6CIjQh2FRRFzHfyqJpFOeksq/diy+KWTQ7zU1bKExHlMQpj1XDogk6jOjfl8eu0xqM7ffr0mN7GHBbBo4Ly15FatMEwb5r0R4K49LseKwarX1naYd9IeYluUi1W+kIhDCl5P3WblbmpJHqtNHhC/JedQvN3X7m5XnITnPT2NfqRMLVXPtIKY9+8oT+Ix2IfLCmrHTMlW1BadnjID4x1uuOO1KurSkv/d/JFiMaletvPFiweuPvkDJqINYI5IUcwS8AZbEMFgkGYEgpfxLv3JqykoSKQResLr8cyZPxztc1S3Hl+hsPJiLDiUp+SdmVEhKyoKPRa2ld+4gu4Nxog0/vc2ltrmyOOG5WdgpWTaOi3RtVgJlpbmr80e/JRQ6dzpBJlPgLoFeRGDEmZAVjHDecqzEkBQ6931gNy97crUJ7vwVW4w8jJcxO67e29rV7EcDcot7i+RJ4t6oFAZxz0oBq/WlFae1LYxJQoUgQq9/y/4DIP+5ISPGdZSVlUV0XeTdvnAdyZbRxEdheW17yXALzFeNA7g33ZAkhYnpoSQQNoCi9dQkQMUlQCFhZnIcpJe9VRy7FNCevd6m9UZSW06KR5bBRG4PLL92qJ5xrNRx1vtiMmLphKnSEpcShDbTAesImHmv/a0FT0hwKMyO1P8hiX3sPEpiX33/W9W7fg8AZ8wamyEmN82MSUKFIkMP33dAuhfxhAktMqYfPRhskzMQCMBD8CMSH1V38kUW3hTYAY1LaKxIaQFjq50UbOCc/nawUJxWNnbRHybmamZOK3zCp9UZuD5XltCOA1hgK3aZYNHzm2CutPR2BqNZWSyBMdc9QpWXCgKRgAJ8hSbEODNpoDZlkOvsfQLtCYRq8QWYed9Z1VGmtOK7yex9KaSkmjNrcug0SEojIE7dx7SMj5uVM++K9DiFlIo0FD9S0pD2ewHzFOJC/uvzGiXLfawBCk1GV1tLpvQp0W5SCtwB5qS7qvIGoJZOynTZMKemMIWjCpkEMx1mjxheWvNzgHVFxtQdNXm30DRsFYBHgH6RIQ1IyOBixPWSSPihoo94bINNpQ+uz1Oq7fNR2eClMc5Od1h89LOHMvtJaCsX4s3atIaT8r7jnC2YVZLSPGIVs2I1rgPSR3o+6vOD2D9cZ70efgps2FgrJLyZqPw2kEJIzog2cldsb6HOwuSviOLtFI9VhoyGKNQaQZrfSHZaEYwgM0wUxjYNet502imDLJn+Yp6q72d0RoC0YpscwafKH2dri5x+13XhHcEtqgiGtU8JyaDvozpBJkkXDIvq1WYMviEUTZCb154AdbOm9trPzB3hqXT7DmVAFbIViNNSUlz4t4J/xzpeS74+UY5hIBQyJqLf4rQlWp1eMKWvXaujyfhKLBB0VWuHqDfmxtBI/2n33SFvk6v85KW4E0OiLHj3r0LWYAyFMRMxB/x3B8IBWIrHgD0veaw3wbE0Pf63q5rm6HvZ0Rm4oaRUC/6CCvULIIfGwgb7oEftxEYgN3l6lnpfef9Z1pLX32s7OH/QgKuVcFIoJxMD8GhA5238EBCzIb8i/fPDr+WvuniOQ8eceSn55+L4bIp85KCaUwrr8rwBRPXVjiSaxxNQt96ildfTGOhJpfflMbYHof+92XSeGKksAGFJiibE+RH3AwD1KpTVanBZBe2io7WdBG9L2JNSnmI+PNGwL9Fb18BxnaR1p6w11n5k78KFFIlRHY8WEUl+2eje9CaJxIUx+AHLAj1BIcxXxJ5x2ODDL45VHMfbkr7l7joQfT/S+mozhKd6iaxRkJNHpC0YNwrBbep1j/nB0t/NoXH5eQ2LXYtNarUEDmyZG5SIcLW5do26Ya+GwMKQh5VFrzXKc/EctNIe135lY2fdAMCNrkOErpVJaignHEOb3gMglbUZmaX5J+YVH/7Hg2kdsSJlI/t5vD5aXxiuLYqxZu9YizPDvAWfUsWOMhoj+FJ/msmPRNFq8Mbj8+iLnBp/1DEcwLLGK2DRLu2HissSohSQc8Qbw2MandJ9dEyDlsFGPLk2jY1DNw6MV4QPHnY0dVer24yINj15fj3tg3IWQKPegYsJp2LCmEbg93vlCEz84+v9t6R1XEX84tN+qh1STxxOIgrr8bwOnTcbempAyahVet6PX5RepDclRHH1RcrEorUDYHBJpNxL1AYPkWP2DQLUvhFX0JhqPJUJAuk2wt3t413qyVaNhkM/T1ieC3+xXcoE+S8t5nNLq6XOpuuyD8jMFM1XxXMVkYA1YfwUcjmuy5PSi0g1nQ2IVMITkrsPrbqmPd74iPoQYvlxVwaryxZBYS5tE0Igh/NTddxPtidCh+ChH4ypEDLl/3rCBM0alUuMP49C02JWQhPc7fWTZNcbyeCvdqlHnD9EVGsbK0jV0IageVOHDqQtMKQco8qP5Xcf/VRx9KHDbBscfYstqzBp1FW2FIlEO33eDXwribkoq0b47Zc09MyB6Ws0IGIYWnrBwakU/cphAnFlfucOO4PeAbZgpsfJaAnPRQCZFG5TUZ2n5YkgCDoR6AwzsevS+X82+EE5d63W3RSEkoTkYJmuEFiLD0RMy2dvlJ8eRuOISQLpNI2CaHB6huG+WQ6cxYBAeVGsq1arRHjKRx71u7wvK8B/3IBAwwphSHntIOB6XYUmku6tCETe1G1b9CURcxWklXGSYxjqG6ZIe4wp/rN+w5nB8cxWJIGBIDyhv0PFDBIviXlRSq2F+NxG5NKSIejM8eu4SDEcP9fP3WSCxhJw39wUyOv7qzAAAG7NJREFUeGL0Ee71hsh1DLFCIu8RMNjTGSDXoQ8puRQruoBsu0aXEWZXh2/EcTl2C/uGqZzhseq0BAZ+/44+pe4/zmKT9Couh2WoYjZi+J4UivFBSCHNrxFnpX0BF8e5sdSEHveZmiIxpBxoaRWUblgp4BuJLCmEWBU2tbhSKY6iIYh6M/T1ua3sMZwp+fpuws4YLK0Wf5CQacZsPe3rDmHXBKnW0XVvbg0abG3zkmwVZNl1LDEGf0CvlZTj0DnsDVLR5R/xV5tp19GEZH/PUGs0y6ZRPyiIxdF3Lf3HnRMKwG7R8Q3jhjUtSmkpJo/q8tK3BfxxYneVT1VtuGnnxO6pOIboV1q9TT61+4DR3XwHUlZdtuoZTTOj5gVHQgOiugd7+joFu6zRrZyWrt4AhQxH9D5VhpRUdvspsMdmPRkSdnWHmOoenbUF4AubbG7t4VCPnww75Dh1UqwCuy6OuQ410VsuKsmikWHXyHfqdBoGb7f00BChW7IAprqs7OoKYQw6u/RYNdy6xr62gZVEsvuuT1Nnv+XmsFrQhKBnmIAXLZzYF61QJIoMi28B0Vs3jNV+ysqaXATHos00wU+B4gRWOxDUQ98EkAl6jWLyy/UEYldaTd0+wqYkxxnbOV1Few/5Dp1YjZ9tnQGcmkbW0GCFmGgOGLzd4mV7m5e2gIFVSFKtgjyHRoZN4NAEgbDB/i4/bzZ3c6g7MOSMajC5Dgsagq0dQ5VNocOCISWHBlW8z+67PrXHJWu7bb0PMd0RFKRCMVnU3LWqGiF/PRF7ScQrtRtuen0i9lIMj5SiE6CgdMMFEnFzAkuZGuaNTetu6b3ZaSLmZqHDYQG6iRJBePQm6opBUYRNSYs3ELPS2tPWzSVTsihyWKgcpv3HYIImvNUeYKXHTntb+Fi1idHiD5tU+YJUjXxEFRN2TWN6kpVXWvyEh4kQneWycrg7iCEHvpftsuEPm3T29IfOH72+w1lapq5FbgGtUEwAQc34sS1svQHIG899tATywxRjg0B2zigpSw0g7iH+SiYIyc+ryle/cvTfUgqLSKARuYYkcgVcoMMbIGSYZCU7YpK8psNLjtuONYYKFvXeAPXeAHNibHsPsLcnRH0gzLxke/xXcgwQAuan2KjyGez3DlU0ybpGrkNnS1P7kPcK3Q4augMDvrrs5N7k8pauoZpUM2TU70mhGG+a1t3SLQQ/iD4yASQ7qstuenZc91BERQrRGUD8FpgS7xoCdluC1gF/LxrEfrMfBg0R/WYYNiWHmztx2yxkJEW37Crq2rEIwfSU2Cp8bG7sYLrLEnPOFsALLT4sGsxMSiRdIDHmJNkxgRebh68UMi/ZSigseb9xYPWZXJeNVJuFvU0DX5/q6T1ePNAwtFqNJYbvSaGYCKpza+8Gto7X+lKIn6gmj5OPkPJMBImU3gqaQvvc4CLHUpqJBHOggYhcAbePA/W91sJUjzvKSNhT29tzqzg1tnzYLU3thE3JwpTYFVDIhCcbfKTbdGaMwkobCwQwO9lKskXwZKN32PqJNg0WJtnY3Nw1xDVY3NfF+IPagb3JpvZVfN9f1zZkPa/FUEpLcWKwdq2JlImEPo+IgEO1eTWPjsfailGTaPm4/63dcNO2wS+KhC0tiN7VETjY9/Q/NT1qsCHVbd10Bw3mpkVXcAB+w+SN+nYWJdlGVXapK2zytwYvGXYLc5JtaBPgLNSEYF6KjVSLzl8bfHhHKFe1MMmGpsGm6oYh7xWnuTBMSUV184DXp/RZWhW1Q5RWsGndzT1jIb9CMRbUlJduAp4a63WllD9j7dqE8ngUk4+ALblSDn8uKUaRczQMGlARy8CKPktrVmb0yGsJ7KhpY0qyg8wYQt8BXqtrwQSWp42uSW+7YfJ4fQ92XWOxx45zHFuSuHSNpWl2hBA8Vu+lc4Rka7eusSTVwbvNXXQPqiLisGjMT3dT0dpFYFCNwlmZyUiGKi0B+5W7RHGiITX9GwxTNSEBGoW7574xXE8xOXhNTb9uS3npuIRBa0i5N5aBm/f31qtcUhhbp+w3K2oRwPLs1JjG94TCPF/ZxKIkG5m20bk8vWHJY/Veqn1hlnmcTHFZR9EyMjq6gGluK8s8Dg55Df7c4MUfIWrx9HQ7IWnyzyNDa3wuzUjBKjTeODDQApuankRmkoMDjR10DEpENiGm70ihmEhq139pr4QNY7WekPJX1b/6eoLxvIrJRsC3a9d/adzuWRqaFtPih5s6qW7tZnpGMlkxBGPsrWujpSfIiuzUmNXH6w1t1PsCnJfhGLWrz5SSV9r8PNnYQ6pN57R0B4VOS8yNI4fDKgRFLiunpjtJsmg80eDl9fYAkdK2pjstzHZZefpwE75hOlyempNKIGyybf9AhXZKUSYAb+yrGzJHwJ74P4VCMX5YNOMHIFoSXUdApyVoGzMFqJg0XqwuW/W78dxA04JazDfEN/bWArC0KCPqWAm8eaiedIeVBemxnW1JKfljRS1pFsEZntG5CY/SEDB5rK6HV1r9pNp0VqY7mZ9iI8ehx9RE0qELch0WFqTYWZHpINmi8WKLn8fqvTRFKRicpGucl+nkg3YfWxuHBlMUuh3MSHGypaaNgDFwreVTepXWq7urhy4cozWsUEw0letvbkOY/5foOqYQ6w7fd8PQ3BDFh4kOKeUN432UoVXdc2MdMXYnfX1Pr9I6dWpmTIu/sKuKYNjkkqKsmAVq8Ab426EGFqbYKI4zKlACB30Gj9d7ebTOS23AJMtu4dQMO6dnOlmS5mBBip25yXbmJdtZkGJnqcfBGZlOlqc7yLDrVAfC/Kmmhz83eDkSQ9KzVcAlWU58hsmfKqqGHXPxlAykhH/uPDLgdYsmWFqUgSklr++pGTJPWVqKE5m0Fs+dQCIKx2/Tgr8ZK3kUk4SU/1FbXlo53ttYerVi+evAZdEGv7S7CiNscu7MXH5q2TnEWhhMtz/Ea/vrOX9OPsVpbva1xxYAt7mxg6IkJ+dnp+IzJVUxKI2RaDdM3mrvPSPShcBj1Ui3ajh1gb0viMVvmvilpCVg0haSmKPM1taE4OIsJ2kWjQ27K/EbQ92CuS4bi9KT2VbfRk3TwOIWK6Zlk+Kw8vbBBjq9Q9qeeB32wHujEkihmEDaMjqXC0laAkvcp5o8fsiR/K2mvPT3E7GV1rsfm2IZ3NLl58VdVbjtVs6ZlRvTBs/uOIIhTT4+NYvRdAb5y6EGPmjv4ZJMF/mOhHLRjhGWkuZgmH09IbZ3BnmnI8A7HQF2dIXY123QEjLjUlgXZDgocOj8vqKG2u7hz5E/Pi0bIeCZ9w4Pee/S+YUAPPrmviHvSXh1/29vHT57WaE4ARCm+a0Epoc1KX8+ZsIoJoPmkClKJmqzXqWliZiUFsBjb/ZGyF86ryCm8e3eAM99UMvUZAen58T+MCal5OG9tRzq6uGKbBfTXfEVyB1PrAIuy3Iyw2Xh4f11HGgbPk97nieJhelJvF3dSuWg6hhJdgtnzsjGHwrz1OYDQ+ZqMT5QKBSTQd6ajWchuCLuBSSPVpWXDv3DV3yIEGsa71o1NCF1nNAA6nJqtsUaAfT8+5W09wQ4bWoW2cmxFet9cushWrxBrpiWTfIoemEZ0uT3e6rZ0dLFJZkulqTaJrXW4PGkWgRX5rjJtencs6eGnc3D17O1ahqfnJmD1wjzyFtD4ykumlOA3aLz3M6qYau7C8wXxlx4hWIMyF29fppmmg8SfzFViTB/MpYyKSac+2vKVj02kRv2htOtXWuC+XIsE4JGmMfeqkDTBNctmxnTJqFwmIff3ofLovGpmbG5FY8SNiWPVNTyYk0LK9IcXJbtHFWNwvFgpsvCNXlJ6MD6nUc40D5yJax/n5ZFpsPKE+9X0tUz0Muna4LPnjIDgAde3jXc9Laq1vQhZVAUirEm6+Y7k/JLN96QX1IWNcoq6+Y7k/JXl9+oS/1tEEVxbyp5sqZs9fa45ysmmxpdM7460Zse87lJIR4Vkk/EMqns+R18/px5/PvCKdz3zn7avNGPXLZXNvPW4UZWTMvm7DwPrwxTX28kJPBcVRMHOnr4THEBnylIYkt7gB1dwQQK3I8et66xwmNnjtvK+209PFpRTXCEMk4AizOSOTvfwwfNXbz8/tCgmovmFlCY5mZ7VfOxyMzjkUI8zqOfjBztolCMAZqpuQTyHoSQBaXle4GdAtmAoNk0tSYBqQgzCyHmEOY8IKGeSIApkLeNgeiKyUEKzJsq198c+418jDimtGx+6xMhe6gdokcB1bX18OibFVx31lw+vWQ661+PLSL7gdf3MDUzhatmZHO4y0/lCEELI3Gw08uv3zvIZdNyOD0rhZluK5s7AglFF8aCQxMsSrFxcoodfzjMQxV17GiOnCWQ6bDy2dl5dAZC3LVpJ+agjGRNCD53Sq+l+osntwy7hi7DfxibT6BQxIygt1DqXIkACeJY2k3vv8cG+VB1een7Y7WaYmIRkjury1f/fTL2PpZte/i+G/xSiJh9k3f+4z0M0+SaxVPxuGJLBA4YJhteeB9TSkrmF5AeY13C4+kxwjy6v5b1O48QCIW4ItvFNbluit1WLInVYRxCulXjDI+d6wuTWZRs482Gdn62ZX9UheW26pTOL8KhC+5+Yx+dw1iiF87JZ2ZmMrtr29g0jBWG5EhVWemrY/VZFIoTiJAmWTvZQiji5kDAEvrvydp8QImI0TzZVzZ38egb+3DbrXzl7Hkxb1jb3kP5y7tJtup8+aQpJFvjiwqs7PKx/v3DlO2qpNMf4IJMJzcUJnN+hpOZbiuOOM69hIAsu86SVBvX5rr5dH4Ss91WXqtv48dbKnjmUD3BKJ2SrZpGybxCclw2HnjvEB9UNg0Z47JZjl2znz7xzvBloTRxvyqSq/hIIuTPVMTghxZTSvnFpnW3xNTSajwYoDGqykpfLSjdeACIKcLiR3/ZzMWLp3HpvEKe3lXFlqrYSpBtr2zmgXcquP60YlYvKGDdrmp6QvEd3Rzq9HLX7krSbFaWZKewODOVOZm9zSfbQiZtwTBthkmnYRIyIdCndCwaWBC4dUGqVSPNqpFl1bHrgkBYsr/Lx7OHW9nT1jPEtTcSVk1j1bx8ZqQ4+dsHNbyyY/jk8FUri8lMcvD8riqeH36MKZRrUPERRMBui9/2v5MthyJOhPxJbVnpa5MpwiAzR0go/zmwPpbJbT1+bv/rZm6/7iz+87yT+PwDr2BEsUSO8uqeWtx2K1cvns5XF07hzl3VtAfir2TfHgyxqbqFTdUtJFl1ZqS6mZ7iIttlZ5bTRqpNHzYuN2hKWgMhmn0Bdjf7qGjvpro7gIxRUR3FZdEonVfEjFQnmw418uQ7w3d8mZmZzLVLphMwwnz/4deHX0zyl+ry1TG1jFEoPkQYAvMLgzvZKj40bE9r8fxwaKG5iWWIb85p89/rCzpuA2LKHn74tb186vQ5LJ2ezU0r57AhxqAMgL9vP4I/GOazy2fytUVT2LCrmroYIhGj0R0Ks6O5kx2DcqfsuoZd17BqAp9hEjBNwjEq2Uh47FZuXlBIrsvOU3tr+etbQytbAFh1je9fshiLJvjl09uobB6+GbGmclcUH0GElP9ZVb763cmWQxEXAaGJz+969JND6sxNNEPKnu//7a0BhPxFrAuYUvKN+1/BFzT4/KkzWTEt9uK4AC99UM36V3vPuL5+8lSWZ8XWfyseAmGTzqBBiz+E1wiPicIqTnPzjcVTyXHaeOi9QyMqLICvnjufOdmp7KhqYf0/RkxPebqqTP2wFR8tJNxeXV56x2TLoYgPAT+oXr9qx2TLAcMoLQBpUgY0xrrIvro2bvvj62hC8INLFsfUb+t4th1q4uf/fI+eoMHn5+Txmdm5WGNoIzKZaELw8WnZfPmkIjTgjlc/YNP2IyOOv6A4j6tPnkaXP8TqsucIDVNUF0AK7cfjJLJCMVncV1u2atKizRSJIt6sbk07YepDDqsZastLvUgxqpvnn97Yx6Nv7sPjsvO/ly3FNsruiwcbOvnhE2+zpbqV03PS+M7S6SzwxNaHa6KZkuTkP0+ewoWF6Rxo6+F/ntrCzkMj6/jpGcl856KTkcDX7ntpRLcg8FTthptGOOhSKD50SAm31+TVfklFwn5o8QrCXziRihyMqFlq8mt+B4yqJcZ3//g6e2vbWFyYzg8vXYI2yrwpXzBM2Qs7eGjzfly6xuoFRdw0r4CMOPK5xoMUq4XrZufxjcVTyXXZeWJ3FT99cgttnSMnSeckO/nNJ07DbbNw94s7+fswVd778Oma5T/GQ26FYhJoloirastKvt1bJk7xoUTKb1SXnVhBYSObQ2vXGlJoX2YUOfDegMF1dzxLdWs3583O41sXnDRqgSSwaXc133n8TV7cX8/C9GS+v2wmN84tINdlG/V6Y0G63crVM3JYu3wGK3JS2dnUyQ+e3MzTmw8g5ci/x1SHjd9cfRrZyQ6ee7+S/33srRHHSvhJ5fobD46H/ArFBBKSQtxhDVhn15at+utkC6NIAMHzNeUlGyZbjMFEzOyt3XDT64Ul5fdKwY2xLljf3sP1dzzL49+4gisXTaXTH2Lda6NvvNsTMHj49T28s7+Oy5dOZ3F2GidnJLOztZu3Gtr5oL0n5vD6eBBCMDfNxfLsFJZmpKBrgv1t3Ty1vZJdR6If9yXZLfziquVMS0/izYo6SsueHznwQ7LfFrT+dIw/QvwIyqQp8uObLMenAKrkjxIR30GwJkc+bIyNH0kp4qq1p4vYClFPNg25Da35dbkf16R2ptQ4E8kpwCieEuVOgXgAEX6gZsOayY6KHleENPeaUl8b73zNJ1rHUJxoPCNgaIWDmAg/MB5uXYH5Omjfjn9+FPJLyjKFJnYjGVVY4JLp2fzpqx/DZbfw5+1H+PmLQ+vvjYaijBQuXzKdxflpaELQEwqztbmT3W3dHOjw4Qsn7oGwaRozUpzM87hZlpVCqs2CKWFPcydPbz/MvprY/tYy3XZ++YnTKM5KYXdNK1f/7Em6/CNGikop5SW15aX/TPgDKBRjROHXfukM+5NP0Uy5AJgNsgBEEmBDiHak2SalVovgPaS5bSLarCsUEGMfnILSDReA9k8iuROHYfG0LO7/8iWkJzl4eX89339mGwEjsfO8ZIeN04rzWDkjmympvYEappRUdgc41OmlwRekse+/juDIhXSTrTpZThs5ThvZTjvTUhxMS3Yeq19Y1xPg7SONvLmnltau2Av7FqS6+M3Vp/VWb69s5vo7nqW1e+RcSoH8WXVZaSKdXxUKheJfhpgjJQpKy38EjDpstTjPwwO3Xkq+x83Wqha++/TWmFqZxEJWsoN5RZnMy0+nOCuZFNvQgI2gKfGHwwTDEqsmsOsaDn2o7u0JhdnX0sWe+nY+qGqhrnXECL8RWVKYzo+vOIU0p40Xdlaxuvx5fBEUJ/BOWmvaWSdCwp5CoVB8GIg9vG/tWkthXf6LEs4a7Sb5HjcP3HopxXkemrv9/ODZbTHXKRwNaS47eZ4kcj1uclJduO0WHBYdh9WC06rjC4XxG2ECRpieoEFjp4/69h7q27po7fTH3XVBE4LPnzqLVSuL0TXBI2/t41v3v4phRnRZtoVFeGn9hjWH49xWoVAo/uUYVUx64er1BVLqW4Hs0W6U5LDyk+vO4srlM5ESHnj3AOtf25PQOdeJQJrTxg8uWczK6dkEDZMf/eVt7n5x5/CV2/sxkfLjNeWlT0+QmAqFQvGRYNT9OwrXbFwkTfkyMTSLHI5rVszmx589E6fNwp6GDn7+4k52jqKL8YmCAC6dX8hXzp6Hx2WnurWbNRtfYFuEJOPj5n61uqzkN+MvpUKhUHy0iKtrYkFJ2XkI8SwQW/fHQcwrSOc3N5zL/MIMTCn5y/YjbHhjL13++Ku8TyTFWSl884KFLMz3ICX8+Z0Kbnv4jUgRgscQQv6wekPp2vGXUqFQKD56xN3qN7+k7ErR2+lYj2e+RdP44nnz+c8rlpHssNHmDfDguwf5844jeCMHL0waRR43Xzh1FpfNL0QTgn117Xz34dd4c19djCvI8pqy0tJxFVKhUCg+wiTUn75wdfkqKdnAKEPhjyc71cX3r1nBv58yEyGg0x/kkW2HeWTbITpPEMtrZmYyXzh1Fv82J783RywQ4tdPb2XjCzsxYswPE/BwdWva9SdSDS+FQqH4sJGQ0oJjFtfDQFwVA44yryCdr1y6hMuXTUcTAl8ozEsVdTz7QQ3vVjZPeMCG22bh/OI8LptfyOLCDATQ6Qtyz4s7ufvFXbT1xN7HTkh+V51f+x+qBptCoVAkRsJKC6Bw9cZzpZRPAAk3w5qZk8otlyzmyuUzsVl6PY9N3X7+saeGtw43saO2leAIbT0SxeOys6wog7Nn5nDOrFzsR/fv9HH3izv5/Uu7Yzq3Og4phPwfdYalUCgUY8OYKC2A/NV3LUHKZwQydyzWS3XZuWLZDK5eMZtTZuRwtGB80DB5v66NLVXNfNDQQWVbN3UdvlFbYnaLzlSPmynpSSzK97CsKJMZmcnHLog/FObv7x3mz29X8Mrummg5V8NhSEFp7YaSe0Y7UaFQKBTDM2ZKCyBn9fpsi9QfAC4cy3WnZqVw2ZJpnDEnn+WzcnHbB1a+CIZNqtt7qGn34g0Z+IJhugIhvEEDiy5wWS04rRaSHVaS7RameJLISXEO+fD17V5e31vDqx/U8I/3jozWqjqeainlZ2rLS1+LdwGFQqFQDGVMlRYA1z6iF2a0fU9KcRtxRhZGwqJrLJmWxYriPObkpzMjJ5WZOalDFFk0mjp97K9v52BDBzurmnljby0HGjoSF1DwfMgQn2u8a1VD4ospFAqF4njGXmn1UVC64QKJ/sBYuQujkedxk5fmxu2wkuqy47ZbcNmthAyTnkAIbyBET8CgtdtPVUsXXb4xL/cXkvCd2rJVv1BdWhUKhWJ8GDelBTDti/emBR3GD4WUtzAOVteJgoBXkfKW6vLS9ydbFoVCofgoM65K6yj5JWVLhRDrgNMmYr+JQiLqBfxXTdlNf1DWlUKhUIw/E6K0ALj2Eb3A01aCEN8D8iZs3/HBD3KDXbL2YHnpGByEKRQKhSIWJk5p9bHg2kds7ekdnwZ5GzB7ovdPkG4pxD16ULu96p4v1U62MAqFQvGvxoQrraMsKymz1mviOky+hWDeZMkRG6JFIO/E0H5TffdNrZMtjUKhUPyrMmlK63imrCpfYGhcL+AG4ujVNU4EgOeQ8v60Ns9fVXdhhUKhmHxOCKV1lGUlZdY6XVyKFJ9Ccv5EhcsfR4+E14SQf9FF+JHK9Td/+Bp9KRQKxUeYE0ppDWbKqvIFpsb5JpwnEGeDzBjjLXwI3pGm2ATmC542zzvKolIoFIoTlxNaaQ0m94Z7soQjPFeYFGuYc0AUA+kSmQSkgkgBkgAL0AV0gOwG0Y2gDckhAXuEYF+I8N763IZKVXldoVAoPjz8f9AiCsfNdQkIAAAAAElFTkSuQmCC" alt="ПГУТИ" width="105" height="26"></span>
+      <span class="brand__text">
+        <span class="brand__dept">Кафедра радиоэлектронных систем</span>
+        <span class="brand__univ">ПГУТИ · Самара</span>
+      </span>
+    </a>
+    <div class="tools">
+      <a class="tool tool--search" href="#" aria-label="Поиск по сайту">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="7" cy="7" r="4.8"/><path d="M10.5 10.5 14 14"/></svg>
+        <span>Поиск</span>
+      </a>
+      <button class="tool tool--a11y" type="button" aria-label="Версия для слабовидящих">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 8s2.6-4.6 7-4.6S15 8 15 8s-2.6 4.6-7 4.6S1 8 1 8Z"/><circle cx="8" cy="8" r="2.2"/></svg>
+        <span>Для слабовидящих</span>
+      </button>
+      <button class="tool tool--icon menu-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Меню">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 5h12M2 11h12"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="nav" id="nav" aria-label="Основные разделы">
+    <div class="wrap"><ul>
+      <li><a href="#" aria-current="page">Образование</a></li>
+      <li><a href="#">Новости</a></li>
+      <li><a href="#">Достижения</a></li>
+      <li><a href="#">Документы</a></li>
+      <li><a href="#">Сведения о кафедре</a></li>
+      <li><a href="#labs">Лабораторные работы</a></li>
+      <li><a href="#">История электродинамики</a></li>
+      <li><a href="#">Медиаконтент</a></li>
+      <li><a href="#contacts">Контакты</a></li>
+    </ul></div>
+  </nav>
+</header>
+
+<main id="main">
+
+<section class="hero" aria-labelledby="hero-title">
+  <canvas class="hero__field" id="field" aria-hidden="true"></canvas>
+  <div class="wrap hero__inner">
+    <div class="hero__copy">
+      <span class="eyebrow"><span class="eyebrow__long">Поволжский государственный университет телекоммуникаций и информатики</span><span class="eyebrow__short">ПГУТИ · Самара</span></span>
+      <h1 class="hero__title" id="hero-title">Кафедра<br> радио&shy;электронных систем</h1>
+      <p class="hero__lead">Антенны, СВЧ-техника и электродинамика: учебные курсы, исследования и виртуальные лабораторные работы.</p>
+      <div class="hero__actions">
+        <a class="btn btn--aurora" href="#labs">Лабораторные работы
+          <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span>
+        </a>
+        <a class="btn btn--ghost" href="#sections">Разделы сайта
+          <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 2.5v9M3 7.5l4 4 4-4"/></svg></span>
+        </a>
+      </div>
+    </div>
+
+    <dl class="readout" aria-label="Параметры модели на фоне: фазированная антенная решётка">
+      <div class="readout__cell"><dt>Решётка</dt><dd>4<small>излучателя</small></dd></div>
+      <div class="readout__cell"><dt>Частота</dt><dd>10<small>ГГц</small></dd></div>
+      <div class="readout__cell"><dt>Шаг</dt><dd>λ/2<small>15 мм</small></dd></div>
+      <div class="readout__cell"><dt>Сдвиг фазы</dt><dd><span id="ro-phi">0</span>°</dd></div>
+      <div class="readout__cell"><dt>Угол луча</dt><dd><span id="ro-theta">0</span>°</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="stats-title">
+  <div class="wrap">
+    <h2 class="visually-hidden" id="stats-title">Кафедра в цифрах</h2>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat__num">4</div>
+        <div class="stat__label">Лабораторные работы</div>
+        <p class="stat__text">Скин-эффект, волновод, объёмный резонатор и полные сопротивления.</p>
+      </div>
+      <div class="stat">
+        <div class="stat__num">2</div>
+        <div class="stat__label">Версии каждой работы</div>
+        <p class="stat__text">Классический стенд, как в лаборатории, и современная интерактивная модель.</p>
+      </div>
+      <div class="stat">
+        <div class="stat__num">0</div>
+        <div class="stat__label">Плагинов и Java</div>
+        <p class="stat__text">Работы, прежде требовавшие Java, теперь открываются в любом браузере.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sections" aria-labelledby="sections-title" style="padding-top: 0;">
+  <div class="wrap">
+    <div class="section__head">
+      <div>
+        <span class="eyebrow">Разделы</span>
+        <h2 class="section__title" id="sections-title">Всё о кафедре</h2>
+      </div>
+      <p class="section__lead">Учебные материалы и расписание, сведения о сотрудниках, публикации и документы собраны в четырёх разделах.</p>
+    </div>
+
+    <div class="explore">
+      <ul class="rows">
+        <li class="row"><a href="#">
+          <span class="row__n">01</span>
+          <span><span class="row__title">Образование</span>
+            <span class="row__sub"><span>Расписание занятий</span><span>Студентам-дипломникам</span><span>Учебные материалы</span></span></span>
+          <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span>
+        </a></li>
+        <li class="row"><a href="#">
+          <span class="row__n">02</span>
+          <span><span class="row__title">Сведения о кафедре</span>
+            <span class="row__sub"><span>История кафедры</span><span>Сотрудники</span><span>Персональный состав</span></span></span>
+          <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span>
+        </a></li>
+        <li class="row"><a href="#">
+          <span class="row__n">03</span>
+          <span><span class="row__title">Достижения</span>
+            <span class="row__sub"><span>Награды</span><span>Публикации кафедры</span><span>Выпускники</span></span></span>
+          <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span>
+        </a></li>
+        <li class="row"><a href="#">
+          <span class="row__n">04</span>
+          <span><span class="row__title">Документы</span>
+            <span class="row__sub"><span>Презентация кафедры</span><span>Рабочие программы</span><span>Справочные материалы</span></span></span>
+          <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span>
+        </a></li>
+      </ul>
+
+      <figure class="schema" aria-hidden="true">
+        <svg viewBox="0 0 400 432" id="schema"></svg>
+        <figcaption class="schema__cap"><span>Схема питания решётки</span><span>1 → 8</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="more">
+      <a class="chip" href="#">История электродинамики <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span></a>
+      <a class="chip" href="#">Медиаконтент <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span></a>
+      <a class="chip" href="#">Поиск по сайту <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="labs" aria-labelledby="labs-title" style="padding-top: 0;">
+  <div class="wrap">
+    <div class="section__head">
+      <div>
+        <span class="eyebrow">Электромагнитные поля и волны</span>
+        <h2 class="section__title" id="labs-title">Лабораторные работы</h2>
+      </div>
+      <p class="section__lead">К каждой работе – методическое описание, порядок выполнения и бланк для результатов. Модели считаются в браузере.</p>
+    </div>
+
+    <ul class="labs">
+      <li class="lab"><a href="#">
+        <span class="lab__top"><span class="lab__code">Работа 1</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span></span>
+        <span class="lab__glyph"><svg viewBox="0 0 120 64" aria-hidden="true"><rect x="58" y="6" width="58" height="52" rx="2" class="g-fill"/><polyline points="4.0,10.0 4.9,10.1 5.9,10.5 6.8,11.2 7.7,12.0 8.7,13.2 9.6,14.5 10.5,16.1 11.5,17.8 12.4,19.7 13.3,21.7 14.3,23.9 15.2,26.2 16.1,28.5 17.1,30.9 18.0,33.3 18.9,35.7 19.9,38.0 20.8,40.2 21.7,42.4 22.7,44.4 23.6,46.3 24.5,48.1 25.5,49.6 26.4,50.9 27.3,52.0 28.3,52.9 29.2,53.5 30.1,53.9 31.1,54.0 32.0,53.9 32.9,53.4 33.9,52.8 34.8,51.9 35.7,50.7 36.7,49.4 37.6,47.8 38.5,46.1 39.5,44.2 40.4,42.1 41.3,39.9 42.3,37.7 43.2,35.3 44.1,32.9 45.1,30.6 46.0,28.2 46.9,25.9 47.9,23.6 48.8,21.4 49.7,19.4 50.7,17.5 51.6,15.8 52.5,14.3 53.5,13.0 54.4,11.9 55.3,11.1 56.3,10.4 57.2,10.1 58.1,10.2 59.1,11.8 60.0,13.4 60.9,15.2 61.9,17.0 62.8,18.8 63.7,20.5 64.7,22.2 65.6,23.9 66.5,25.5 67.5,26.9 68.4,28.3 69.3,29.6 70.3,30.7 71.2,31.7 72.1,32.6 73.1,33.4 74.0,34.0 74.9,34.6 75.9,35.0 76.8,35.3 77.7,35.6 78.7,35.7 79.6,35.8 80.5,35.8 81.5,35.8 82.4,35.7 83.3,35.5 84.3,35.4 85.2,35.2 86.1,34.9 87.1,34.7 88.0,34.4 88.9,34.2 89.9,33.9 90.8,33.6 91.7,33.4 92.7,33.2 93.6,32.9 94.5,32.7 95.5,32.5 96.4,32.3 97.3,32.2 98.3,32.0 99.2,31.9 100.1,31.8 101.1,31.7 102.0,31.6 102.9,31.6 103.9,31.5 104.8,31.5 105.7,31.5 106.7,31.4 107.6,31.4 108.5,31.5 109.5,31.5 110.4,31.5 111.3,31.5 112.3,31.5 113.2,31.6 114.1,31.6 115.1,31.7 116.0,31.7"/><polyline class="g-dim" points="58.0,10.0 59.5,12.2 60.9,14.1 62.4,15.9 63.8,17.5 65.2,18.9 66.7,20.2 68.2,21.3 69.6,22.4 71.0,23.3 72.5,24.2 74.0,25.0 75.4,25.7 76.8,26.3 78.3,26.8 79.8,27.3 81.2,27.8 82.7,28.2 84.1,28.6 85.5,28.9 87.0,29.2 88.5,29.5 89.9,29.7 91.3,30.0 92.8,30.2 94.2,30.3 95.7,30.5 97.2,30.7 98.6,30.8 100.0,30.9 101.5,31.0 103.0,31.1 104.4,31.2 105.8,31.3 107.3,31.3 108.8,31.4 110.2,31.5 111.7,31.5 113.1,31.6 114.5,31.6 116.0,31.7"/><polyline class="g-dim" points="58.0,54.0 59.5,51.8 60.9,49.9 62.4,48.1 63.8,46.5 65.2,45.1 66.7,43.8 68.2,42.7 69.6,41.6 71.0,40.7 72.5,39.8 74.0,39.0 75.4,38.3 76.8,37.7 78.3,37.2 79.8,36.7 81.2,36.2 82.7,35.8 84.1,35.4 85.5,35.1 87.0,34.8 88.5,34.5 89.9,34.3 91.3,34.0 92.8,33.8 94.2,33.7 95.7,33.5 97.2,33.3 98.6,33.2 100.0,33.1 101.5,33.0 103.0,32.9 104.4,32.8 105.8,32.7 107.3,32.7 108.8,32.6 110.2,32.5 111.7,32.5 113.1,32.4 114.5,32.4 116.0,32.3"/></svg></span>
+        <span class="lab__title">Исследование скин-эффекта</span>
+        <span class="lab__meta">Затухание волны в проводнике, четыре металла</span>
+        <span class="lab__foot"><span class="tag">Классическая</span><span class="tag">Современная</span></span>
+      </a></li>
+      <li class="lab"><a href="#">
+        <span class="lab__top"><span class="lab__code">Работа 2</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span></span>
+        <span class="lab__glyph"><svg viewBox="0 0 120 64" aria-hidden="true"><rect x="10" y="14" width="100" height="40" rx="2"/><line x1="18.3" y1="29.6" x2="18.3" y2="38.4" class=""/><line x1="26.7" y1="25.5" x2="26.7" y2="42.5" class=""/><line x1="35.0" y1="22.0" x2="35.0" y2="46.0" class=""/><line x1="43.3" y1="19.3" x2="43.3" y2="48.7" class=""/><line x1="51.7" y1="17.6" x2="51.7" y2="50.4" class=""/><line x1="60.0" y1="17.0" x2="60.0" y2="51.0" class=""/><line x1="68.3" y1="17.6" x2="68.3" y2="50.4" class=""/><line x1="76.7" y1="19.3" x2="76.7" y2="48.7" class=""/><line x1="85.0" y1="22.0" x2="85.0" y2="46.0" class=""/><line x1="93.3" y1="25.5" x2="93.3" y2="42.5" class=""/><line x1="101.7" y1="29.6" x2="101.7" y2="38.4" class=""/><polyline class="g-acc" points="10.0,10.0 60.0,10.0 110.0,10.0" style="display:none"/></svg></span>
+        <span class="lab__title">Поле прямоугольного волновода</span>
+        <span class="lab__meta">Волна H₁₀, измерительная линия, волновод 23 × 10 мм</span>
+        <span class="lab__foot"><span class="tag">Классическая</span><span class="tag">Современная</span></span>
+      </a></li>
+      <li class="lab"><a href="#">
+        <span class="lab__top"><span class="lab__code">Работа 3</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span></span>
+        <span class="lab__glyph"><svg viewBox="0 0 120 64" aria-hidden="true"><rect x="6" y="10" width="108" height="44" rx="2"/><polyline points="6.0,32.0 7.3,30.6 8.7,29.2 10.1,27.8 11.4,26.4 12.8,25.1 14.1,23.8 15.4,22.6 16.8,21.4 18.1,20.3 19.5,19.3 20.9,18.3 22.2,17.4 23.6,16.7 24.9,16.0 26.2,15.4 27.6,14.9 28.9,14.5 30.3,14.2 31.6,14.1 33.0,14.0 34.4,14.1 35.7,14.2 37.0,14.5 38.4,14.9 39.8,15.4 41.1,16.0 42.5,16.7 43.8,17.4 45.1,18.3 46.5,19.3 47.9,20.3 49.2,21.4 50.5,22.6 51.9,23.8 53.2,25.1 54.6,26.4 56.0,27.8 57.3,29.2 58.6,30.6 60.0,32.0 61.4,33.4 62.7,34.8 64.0,36.2 65.4,37.6 66.8,38.9 68.1,40.2 69.5,41.4 70.8,42.6 72.2,43.7 73.5,44.7 74.8,45.7 76.2,46.6 77.5,47.3 78.9,48.0 80.2,48.6 81.6,49.1 83.0,49.5 84.3,49.8 85.7,49.9 87.0,50.0 88.3,49.9 89.7,49.8 91.0,49.5 92.4,49.1 93.8,48.6 95.1,48.0 96.5,47.3 97.8,46.6 99.2,45.7 100.5,44.7 101.8,43.7 103.2,42.6 104.5,41.4 105.9,40.2 107.2,38.9 108.6,37.6 110.0,36.2 111.3,34.8 112.7,33.4 114.0,32.0"/><polyline class="g-dim" points="6.0,32.0 7.3,33.4 8.7,34.8 10.1,36.2 11.4,37.6 12.8,38.9 14.1,40.2 15.4,41.4 16.8,42.6 18.1,43.7 19.5,44.7 20.9,45.7 22.2,46.6 23.6,47.3 24.9,48.0 26.2,48.6 27.6,49.1 28.9,49.5 30.3,49.8 31.6,49.9 33.0,50.0 34.4,49.9 35.7,49.8 37.0,49.5 38.4,49.1 39.8,48.6 41.1,48.0 42.5,47.3 43.8,46.6 45.1,45.7 46.5,44.7 47.9,43.7 49.2,42.6 50.5,41.4 51.9,40.2 53.2,38.9 54.6,37.6 56.0,36.2 57.3,34.8 58.6,33.4 60.0,32.0 61.4,30.6 62.7,29.2 64.0,27.8 65.4,26.4 66.8,25.1 68.1,23.8 69.5,22.6 70.8,21.4 72.2,20.3 73.5,19.3 74.8,18.3 76.2,17.4 77.5,16.7 78.9,16.0 80.2,15.4 81.6,14.9 83.0,14.5 84.3,14.2 85.7,14.1 87.0,14.0 88.3,14.1 89.7,14.2 91.0,14.5 92.4,14.9 93.8,15.4 95.1,16.0 96.5,16.7 97.8,17.4 99.2,18.3 100.5,19.3 101.8,20.3 103.2,21.4 104.5,22.6 105.9,23.8 107.2,25.1 108.6,26.4 110.0,27.8 111.3,29.2 112.7,30.6 114.0,32.0"/><polyline class="g-dim" points="6.0,32.0 7.3,31.3 8.7,30.6 10.1,29.9 11.4,29.2 12.8,28.6 14.1,27.9 15.4,27.3 16.8,26.7 18.1,26.2 19.5,25.6 20.9,25.2 22.2,24.7 23.6,24.3 24.9,24.0 26.2,23.7 27.6,23.4 28.9,23.2 30.3,23.1 31.6,23.0 33.0,23.0 34.4,23.0 35.7,23.1 37.0,23.2 38.4,23.4 39.8,23.7 41.1,24.0 42.5,24.3 43.8,24.7 45.1,25.2 46.5,25.6 47.9,26.2 49.2,26.7 50.5,27.3 51.9,27.9 53.2,28.6 54.6,29.2 56.0,29.9 57.3,30.6 58.6,31.3 60.0,32.0 61.4,32.7 62.7,33.4 64.0,34.1 65.4,34.8 66.8,35.4 68.1,36.1 69.5,36.7 70.8,37.3 72.2,37.8 73.5,38.4 74.8,38.8 76.2,39.3 77.5,39.7 78.9,40.0 80.2,40.3 81.6,40.6 83.0,40.8 84.3,40.9 85.7,41.0 87.0,41.0 88.3,41.0 89.7,40.9 91.0,40.8 92.4,40.6 93.8,40.3 95.1,40.0 96.5,39.7 97.8,39.3 99.2,38.8 100.5,38.4 101.8,37.8 103.2,37.3 104.5,36.7 105.9,36.1 107.2,35.4 108.6,34.8 110.0,34.1 111.3,33.4 112.7,32.7 114.0,32.0"/></svg></span>
+        <span class="lab__title">Колебания в объёмном резонаторе</span>
+        <span class="lab__meta">Нагруженная добротность, резонатор 23 × 10 × 40 мм</span>
+        <span class="lab__foot"><span class="tag">Классическая</span><span class="tag">Современная</span></span>
+      </a></li>
+      <li class="lab"><a href="#">
+        <span class="lab__top"><span class="lab__code">Работа 4</span><span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span></span>
+        <span class="lab__glyph"><svg viewBox="0 0 120 64" aria-hidden="true"><circle cx="60" cy="32" r="28"/><line x1="32" y1="32" x2="88" y2="32" class="g-dim"/><circle class="g-dim" cx="69.3" cy="32" r="18.7"/><circle class="g-dim" cx="74.0" cy="32" r="14.0"/><circle class="g-dim" cx="78.7" cy="32" r="9.3"/><path class="g-dim" d="M88 32 A28.0 28.0 0 0 0 60.0 4.0"/><path class="g-dim" d="M88 32 A28.0 28.0 0 0 1 60.0 60.0"/><circle cx="70.6" cy="23.6" r="3" class="g-pt"/></svg></span>
+        <span class="lab__title">Измерение полных сопротивлений</span>
+        <span class="lab__meta">КСВ и фазовый сдвиг, линия 50 Ом</span>
+        <span class="lab__foot"><span class="tag">Классическая</span><span class="tag">Современная</span></span>
+      </a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" aria-label="Новости и контакты" style="padding-top: 0; padding-bottom: 0;">
+  <div class="wrap split">
+    <div class="panel">
+      <div class="panel__head">
+        <h2 class="eyebrow eyebrow--plain">Новости</h2>
+        <a class="chip" href="#">Все новости <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span></a>
+      </div>
+      <ul class="news">
+        <li><a href="#">
+          <time datetime="2026-08-29">29.08.2026</time>
+          <span><span class="news__title">Сайт кафедры возобновил работу</span>
+            <span class="news__text" style="display:block">Поиск по разделам, версия для слабовидящих и мобильная вёрстка. Заново открыт комплекс лабораторных работ.</span></span>
+          <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span>
+        </a></li>
+      </ul>
+    </div>
+
+    <div class="panel panel--deep contacts" id="contacts">
+      <div class="panel__head"><h2 class="eyebrow eyebrow--plain">Контакты</h2></div>
+      <dl>
+        <div><dt>Телефон кафедры</dt><dd><a class="phone" href="tel:+78463325853">+7 (846) 332-58-53</a></dd></div>
+        <div><dt>Адрес</dt><dd>443010, г. Самара, ул. Льва Толстого, 23, корпус №1, 3 этаж</dd></div>
+      </dl>
+      <div class="more"><a class="chip" href="#">Как добраться <span class="arrow" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/></svg></span></a></div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <p class="footer__dept">Кафедра радиоэлектронных систем</p>
+        <p>Поволжский государственный университет телекоммуникаций и информатики</p>
+      </div>
+      <div>
+        <h2>Связь</h2>
+        <p>443010, г. Самара, ул. Льва Толстого, 23, корпус №1, 3 этаж</p>
+        <p><a href="tel:+78463325853">+7 (846) 332-58-53</a></p>
+      </div>
+      <div>
+        <h2>Ссылки</h2>
+        <ul>
+          <li><a href="https://www.psuti.ru/" rel="noopener">Сайт ПГУТИ</a></li>
+          <li><a href="http://phone.psuti.ru/" rel="noopener">Телефонный справочник</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__mark" aria-hidden="true"><span>РЭС</span></div>
+  </div>
+</footer>
+
+<script>
+/* меню на узком экране */
+(function () {
+  var h = document.getElementById("header"), b = h.querySelector(".menu-toggle");
+  b.addEventListener("click", function () {
+    var open = h.classList.toggle("is-open");
+    b.setAttribute("aria-expanded", String(open));
+  });
+})();
+
+/* схема питания решётки (делитель 1 → 8) */
+(function () {
+  var svg = document.getElementById("schema"), NS = "http://www.w3.org/2000/svg", out = [];
+  function el(name, attrs) { var e = document.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); svg.appendChild(e); return e; }
+  var line = { stroke: "#bbc7c6", "stroke-width": 1, fill: "none", opacity: .55 };
+  var y0 = 60, levels = [1, 2, 4, 8], dy = 78, W = 400, pad = 44;
+  var prev = [W / 2];
+  el("circle", { cx: W / 2, cy: 30, r: 10, fill: "none", stroke: "#edfffe", "stroke-width": 1.2 });
+  el("line", Object.assign({ x1: W / 2, y1: 40, x2: W / 2, y2: y0 }, line));
+  levels.forEach(function (n, li) {
+    var y = y0 + li * dy, xs = [];
+    for (var i = 0; i < n; i++) xs.push(pad + (W - 2 * pad) * (i + .5) / n);
+    if (li > 0) xs.forEach(function (x, i) {
+      var px = prev[Math.floor(i / 2)], py = y - dy;
+      el("path", Object.assign({ d: "M" + px + " " + py + " V" + (py + dy / 2) + " H" + x + " V" + y }, line));
+    });
+    xs.forEach(function (x) {
+      el("circle", { cx: x, cy: y, r: li === 3 ? 4 : 6, fill: li === 3 ? "#edfffe" : "#011d1c", stroke: "#edfffe", "stroke-width": 1.2 });
+    });
+    prev = xs;
+  });
+  // излучатели и фронт волны
+  var yE = y0 + 3 * dy;
+  prev.forEach(function (x) {
+    el("line", Object.assign({ x1: x, y1: yE + 4, x2: x, y2: yE + 26 }, line));
+    el("line", { x1: x - 9, y1: yE + 26, x2: x + 9, y2: yE + 26, stroke: "#edfffe", "stroke-width": 1.4 });
+  });
+  for (var k = 1; k <= 4; k++) {
+    out.push(el("path", { d: "M" + pad + " " + (yE + 40 + k * 22) + " Q" + W / 2 + " " + (yE + 52 + k * 22) + " " + (W - pad) + " " + (yE + 40 + k * 22),
+      fill: "none", stroke: "#cbfffc", "stroke-width": 1, opacity: (0.6 - k * 0.12).toFixed(2), "stroke-dasharray": k > 2 ? "2 4" : "none" }));
+  }
+})();
+
+/* Фон первого экрана: поле фазированной решётки.
+   Четыре излучателя с шагом λ/2. Фазовый сдвиг между соседними медленно
+   меняется, и луч качается: sin θ = Δφ / (k·d) = Δφ / π.
+   Точки сетки светятся по мгновенному значению суммарного поля. */
+(function () {
+  var cvs = document.getElementById("field"), ctx = cvs.getContext("2d");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var roPhi = document.getElementById("ro-phi"), roTh = document.getElementById("ro-theta");
+  var narrow, W, H, dpr, step, lam, src, axis, normal, center, pts = [], running = true, t0 = performance.now();
+  var N = 4, LEVELS = 9;
+  var colors = [];
+  // цвет точки по амплитуде: от бирюзового к розовому на гребнях
+  var stops = [[0,130,124], [96,205,198], [203,255,252], [237,255,254], [250,209,255]];
+  for (var i = 0; i < LEVELS; i++) {
+    var u = i / (LEVELS - 1) * (stops.length - 1), a = Math.floor(u), f = u - a, b = Math.min(a + 1, stops.length - 1);
+    var c = stops[a].map(function (v, j) { return Math.round(v + (stops[b][j] - v) * f); });
+    colors.push("rgba(" + c.join(",") + "," + (0.35 + 0.65 * i / (LEVELS - 1)).toFixed(2) + ")");
+  }
+
+  function layout() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cvs.clientWidth; H = cvs.clientHeight;
+    cvs.width = Math.round(W * dpr); cvs.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    narrow = W < 720;
+    step = narrow ? 11 : 12;
+    lam = narrow ? 44 : Math.max(56, Math.min(84, W / 18));
+    // широкий экран: решётка стоит вертикально справа и светит влево;
+    // узкий: горизонтально наверху и светит вниз, под текст
+    if (narrow) { center = [W * .5, 160]; axis = [1, 0]; normal = [0, 1]; }
+    else { center = [W * .86, H * .48]; axis = [0, 1]; normal = [-1, 0]; }
+    src = [];
+    for (var i = 0; i < N; i++) {
+      var o = (i - (N - 1) / 2) * lam / 2;
+      src.push([center[0] + axis[0] * o, center[1] + axis[1] * o]);
+    }
+    pts = [];
+    for (var y = step / 2; y < H; y += step) for (var x = step / 2; x < W; x += step) {
+      var r = [], dx, dy;
+      for (var s = 0; s < N; s++) { dx = x - src[s][0]; dy = y - src[s][1]; r.push(Math.sqrt(dx * dx + dy * dy)); }
+      dx = x - center[0]; dy = y - center[1];
+      var rc = Math.sqrt(dx * dx + dy * dy);
+      // за решёткой поле гасим: экран-рефлектор
+      var front = (dx * normal[0] + dy * normal[1]) / (rc || 1);
+      var fade = 1 / (1 + Math.pow(rc / (Math.max(W, H) * .75), 2)) * Math.max(0, Math.min(1, front * 1.6 + .55));
+      // на узком экране поле рисуется только над текстом
+      if (narrow) fade *= Math.max(0, Math.min(1, 1.25 - (y - 160) / 200));
+      pts.push({ x: x, y: y, r: r, norm: Math.sqrt(rc / lam + 1) / N, fade: fade });
+    }
+  }
+
+  function frame(now) {
+    var t = (now - t0) / 1000;
+    var k = 2 * Math.PI / lam, w = 2 * Math.PI * .55;
+    var phi = Math.PI * .72 * Math.sin(t * .22);            // сдвиг фазы соседних элементов
+    var theta = Math.asin(phi / Math.PI) * 180 / Math.PI;    // угол луча от нормали
+    ctx.clearRect(0, 0, W, H);
+    var buckets = []; for (var i = 0; i < LEVELS; i++) buckets.push([]);
+    var dim = [];
+    for (var p = 0; p < pts.length; p++) {
+      var q = pts[p], f = 0;
+      for (var s = 0; s < N; s++) f += Math.cos(k * q.r[s] - w * t + s * phi) / Math.sqrt(q.r[s] / lam + 1);
+      var a = f * q.norm * q.fade * (narrow ? 2.4 : 1.6);
+      if (a > .06) buckets[Math.min(LEVELS - 1, Math.floor((a - .06) / .94 * LEVELS))].push(q, a);
+      else if (q.fade > .02) dim.push(q);
+    }
+    ctx.fillStyle = "rgba(0,130,124,.28)";
+    ctx.beginPath();
+    for (var d = 0; d < dim.length; d++) { ctx.moveTo(dim[d].x + .7, dim[d].y); ctx.arc(dim[d].x, dim[d].y, .7, 0, 6.2832); }
+    ctx.fill();
+    for (var l = 0; l < LEVELS; l++) {
+      var b = buckets[l]; if (!b.length) continue;
+      ctx.fillStyle = colors[l]; ctx.beginPath();
+      for (var j = 0; j < b.length; j += 2) { var rr = .8 + 1.7 * Math.min(1, b[j + 1]); ctx.moveTo(b[j].x + rr, b[j].y); ctx.arc(b[j].x, b[j].y, rr, 0, 6.2832); }
+      ctx.fill();
+    }
+    // излучатели
+    ctx.strokeStyle = "rgba(237,255,254,.9)"; ctx.fillStyle = "#012624"; ctx.lineWidth = 1.2;
+    src.forEach(function (s) { ctx.beginPath(); ctx.arc(s[0], s[1], 4.5, 0, 6.2832); ctx.fill(); ctx.stroke(); });
+    if (roPhi && (!frame.last || now - frame.last > 120)) {
+      frame.last = now;
+      roPhi.textContent = (phi * 180 / Math.PI).toFixed(0).replace("-", "−");
+      roTh.textContent = theta.toFixed(0).replace("-", "−");
+    }
+    if (running && !reduce) requestAnimationFrame(frame);
+  }
+
+  layout();
+  var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { layout(); if (reduce) frame(t0 + 2500); }, 120); });
+  if (reduce) { frame(t0 + 2500); return; }
+  // не считаем поле, когда первого экрана не видно
+  new IntersectionObserver(function (e) {
+    var vis = e[0].isIntersecting;
+    if (vis && !running) { running = true; requestAnimationFrame(frame); }
+    running = vis;
+  }).observe(cvs);
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
