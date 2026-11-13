@@ -154,12 +154,6 @@ p { margin: 0; }
 .section__title { font-size: clamp(2rem, 1rem + 3.2vw, 3.8rem); line-height: 1; letter-spacing: -.04em; }
 .section__lead { max-width: 480px; justify-self: end; color: var(--silver); font-size: 16px; line-height: 1.5; }
 
-/* показатели */
-.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.stat { padding: 36px; border-radius: var(--r-card); background: var(--kelp); }
-.stat__num { font-size: clamp(56px, 6vw, 86px); line-height: 1; letter-spacing: -.046em; font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; }
-.stat__label { margin-top: 18px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--mist); }
-.stat__text { margin-top: 8px; font-size: 14px; line-height: 1.5; color: var(--silver); max-width: 30ch; }
 
 /* разделы: строки + схема */
 .explore { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: start; }
@@ -263,7 +257,7 @@ p { margin: 0; }
   .explore, .split, .section__head { grid-template-columns: 1fr; }
   .section__lead { justify-self: start; }
   .schema { position: relative; top: 0; aspect-ratio: 16 / 11; }
-  .stats { grid-template-columns: 1fr; }
+
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .footer__grid > :first-child { grid-column: 1 / -1; }
 }
@@ -361,30 +355,8 @@ p { margin: 0; }
   </div>
 </section>
 
-<section class="section" aria-labelledby="stats-title">
-  <div class="wrap">
-    <h2 class="visually-hidden" id="stats-title">Кафедра в цифрах</h2>
-    <div class="stats">
-      <div class="stat">
-        <div class="stat__num">4</div>
-        <div class="stat__label">Лабораторные работы</div>
-        <p class="stat__text">Скин-эффект, волновод, объёмный резонатор и полные сопротивления.</p>
-      </div>
-      <div class="stat">
-        <div class="stat__num">2</div>
-        <div class="stat__label">Версии каждой работы</div>
-        <p class="stat__text">Классический стенд, как в лаборатории, и современная интерактивная модель.</p>
-      </div>
-      <div class="stat">
-        <div class="stat__num">0</div>
-        <div class="stat__label">Плагинов и Java</div>
-        <p class="stat__text">Работы, прежде требовавшие Java, теперь открываются в любом браузере.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section class="section" id="sections" aria-labelledby="sections-title" style="padding-top: 0;">
+<section class="section" id="sections" aria-labelledby="sections-title">
   <div class="wrap">
     <div class="section__head">
       <div>
